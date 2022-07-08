@@ -4,11 +4,99 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Finlandica:wght@400;600&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
+
+    <div class="container">
+
+
+
+        <div class="sub-container">
+            <div class="header">
+                <div class="nav">
+                    <img src="../../../../code/icons/hamburger-nav.svg" alt="">
+                </div>
+                <div class="header-right">
+                    <div class="header-title">
+                        <h1>Your Book Library</h1>
+                    </div>
+                    <div class="user-greeting">
+                        <img src="../../../../code/icons/icons8-futurama-bender.svg" alt="profile image">
+                        <p>
+                            <span>Welcome,</span><br>
+                            Niko
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="myBtn">Add Book</button>
+
+            
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2>Enter Book Details</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="title input-form">
+                            <label for="title"></label>
+                            <input type="text" name="title" id="title" placeholder="Title">
+                        </div>
+                        <div class="author input-form">
+                            <label for="author"></label>
+                            <input type="text" name="author" id="author" placeholder="Author">
+                        </div>
+                        <div class="pages input-form">
+                            <label for="pages"></label>
+                            <input type="number" name="pages" id="pages" placeholder="Pages">
+                        </div>
+                        <div class="genre input-form">
+                            <label for="genre"></label>
+                            <input type="text" name="genre" id="genre" placeholder="Genre">
+                        </div>
+                        <div class="rated input-form">
+                            <label for="notes"></label>
+                            <input type="text" name="rated" id="rated" placeholder="Notes">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
 </body>
-</html>
