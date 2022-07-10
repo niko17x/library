@@ -43,7 +43,7 @@ window.addEventListener('click', (event) => {
 
 
 
-
+// INPUT FORM:
 const title = document.getElementById('title');
 const author = document.getElementById('author');
 const pages = document.getElementById('pages');
@@ -51,8 +51,6 @@ const genre = document.getElementById('genre');
 const notes = document.getElementById('notes');
 const submitBtn = document.getElementById('btn');
 const myBtn = document.getElementById('myBtn');
-
-
 
 class Book {
     constructor(title, author, pages, genre) {
@@ -64,11 +62,7 @@ class Book {
     };
 };
 
-
-
-
 let myLibrary = [];
-console.log(myLibrary);
 
 class BookInfo {
     constructor(title, author, pages, genre) {
@@ -84,27 +78,29 @@ const addBook = function() {
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const newBook = new BookInfo(title.value, author.value, pages.value, genre.value);
-        if (myLibrary.length > 0) {
-            // If duplicate isn't found:
-            myLibrary.forEach(book => {
-                if (newBook.title != book.title) {
-                    myLibrary.push(newBook);
-                    alert(`${title.value} has been added to your library.`);
-                    document.querySelector('form').reset(); // clear form after submit.
-                } else {
-                    alert(`${title.value} already exists in your library!`);
-                    document.querySelector('form').reset(); // clear form after submit.
-                };
-            })
-        } else {
+        if (myLibrary.length === 0) {
             myLibrary.push(newBook); // Add first book to library.
             alert(`${title.value} has been added to your library!`);
             document.querySelector('form').reset(); // clear form after submit.
-        }
+        } else {
+            myLibrary.forEach(book => {
+                console.log(newBook.title);
+                if (book.title === newBook.title) { // Dup exists.
+                    alert(`${title.value} already exists in your library.`);
+                    document.querySelector('form').reset(); // clear form after submit.
+                    return;
+                }
+                myLibrary.push(newBook);
+                alert(`${title.value} has been added to your library.`);
+                document.querySelector('form').reset(); // clear form after submit.
+            })
+        };
     });
 };
 
-addBook();
+// addBook();
+
+// BOOK CARDS:
 
 
 
@@ -113,18 +109,16 @@ addBook();
 
 
 
-// If user input title already exists in the library, error occurs:
-// iterate through each title element in library.
-// check if the user input title matches the title in library.
-// if so, then error message occurs:
-const checkDuplicate = function() {
-    myLibrary.forEach(book => {
-        if (title.value == book.title) {
-            return true; // Return true if a duplicate exists.
-        };
-        return false;
-    });
-}
+
+
+
+
+
+
+
+
+
+
 
 
 
