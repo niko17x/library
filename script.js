@@ -33,7 +33,7 @@ window.addEventListener('click', (event) => {
         header.classList.remove('is-blurred'); // Remove blur effect.
         main.classList.remove('is-blurred');
     }
-})
+});
 
 
 
@@ -83,37 +83,28 @@ const addBook = function() {
             alert(`${title.value} has been added to your library!`);
             document.querySelector('form').reset(); // clear form after submit.
         } else {
-            myLibrary.forEach(book => {
-                console.log(newBook.title);
-                if (book.title === newBook.title) { // Dup exists.
-                    alert(`${title.value} already exists in your library.`);
-                    document.querySelector('form').reset(); // clear form after submit.
-                    return;
-                }
+            if (findDuplicate(newBook.title) === true) { // Dup exists.
+                alert(`${title.value} already exists in your library.`);
+                document.querySelector('form').reset(); // clear form after submit.
+            } else {
                 myLibrary.push(newBook);
                 alert(`${title.value} has been added to your library.`);
                 document.querySelector('form').reset(); // clear form after submit.
-            })
+            };
         };
     });
 };
-
-// addBook();
-
-// BOOK CARDS:
+addBook();
 
 
-
-
-
-
-
-
-
-
-
-
-
+function findDuplicate(book) {
+    for (let i=0; i<myLibrary.length; i++) {
+        if (myLibrary[i].title === book) {
+            return true;
+        };
+    };
+    return false;
+};
 
 
 
