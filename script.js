@@ -103,6 +103,7 @@ const addBook = function() {
         if (myLibrary.length === 0) {
             myLibrary.push(newBook); // Add first book to library.
             alert(`${title.value} has been added to your library!`);
+            createBookCards();
             document.querySelector('form').reset(); // clear form after submit.
         } else {
             if (findDuplicate(newBook.title) === true) { // Dup exists.
@@ -111,10 +112,10 @@ const addBook = function() {
             } else {
                 myLibrary.push(newBook);
                 alert(`${title.value} has been added to your library.`);
+                createBookCards();
                 document.querySelector('form').reset(); // clear form after submit.
             };
         };
-        createBookCards();
     });
 };
 addBook();
@@ -161,6 +162,7 @@ function createBookCards() {
         divBooks.append(divBookHeader);
         
         // Book Title:
+        spanClose.setAttribute('id', book.title);
         spanClose.innerHTML = '&times;';
         spanClose.classList.add('book-card-close');
         h2Title.classList.add('title');
@@ -198,7 +200,6 @@ function createBookCards() {
         divBookFooter.appendChild(buttonEdit);
         divBookFooter.appendChild(buttonNotRead);
     });
-    
 };
 
 
@@ -207,27 +208,17 @@ function createBookCards() {
 
 
 
+// Remove book from myLibrary if X is clicked on:
+function removeBookCard() {
+    const onClick = (e) => {
+        // const spanId = e.target.id;
+        myLibrary.forEach(book => {
+            if (book.title === e.target.id) {
+                myLibrary.splice(book);
+            };
+        });
+    };
+    window.addEventListener('click', onClick);
+};
 
-
-
-
-
-
-
-
-
-
-// Remove "book card" if the X is pressed:
-// const cardSpan = document.querySelector('.book-card-close');
-
-// if (myLibrary.length > 0) {
-//     cardSpan.addEventListener('click', (e) => {
-//         console.log(e.target);
-//     });
-// };    
-
-
-
-
-
-createBookCards();
+removeBookCard();
