@@ -86,6 +86,8 @@ let myLibrary = [
 
 
 
+
+
 class BookInfo {
     constructor(title, author, pages, genre) {
         this.title = title,
@@ -211,14 +213,34 @@ function createBookCards() {
 // Remove book from myLibrary if X is clicked on:
 function removeBookCard() {
     const onClick = (e) => {
-        // const spanId = e.target.id;
-        myLibrary.forEach(book => {
-            if (book.title === e.target.id) {
-                myLibrary.splice(book);
+        for (let i=0; i<myLibrary.length; i++) {
+            if (myLibrary[i].title === e.target.id) {
+                const delObjectFromLibrary = myLibrary.filter((item) => item.title !== e.target.id)
+                myLibrary = delObjectFromLibrary; // New library created after deleting object from array.
+                alert('Book Deleted');
+                document.getElementById(e.target.id).parentNode.parentNode.remove(); // Delete book cards.
             };
-        });
+        };
     };
     window.addEventListener('click', onClick);
 };
 
 removeBookCard();
+
+
+
+
+
+
+
+
+
+// myLibrary.forEach(book => {
+//     if (book.title === e.target.id) { // Check if the object title matches the id of the element "X" that was clicked on.
+//         myLibrary.splice(book); // Delete book from myLibrary.
+//         alert('Book Deleted');
+//         // Delete entire DOM parent element of book card:
+//         document.getElementById(spanId).parentNode.parentNode.remove(); // Delete DOM element.
+//     };
+// });
+
