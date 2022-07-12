@@ -157,17 +157,18 @@
     display: grid;
     grid-template-rows: repeat(2, min-content);
 }
-.book-header > .close {
+.book-header > .close,
+.book-card-close {
     justify-self: flex-end;
     margin: -15px -5px 0 0;
 }
 .book-header > h2 {
     margin: 0;
 }
-.book-body > p > span{
-    font-weight: 600;
+.book-body > p {
+    font-weight: 500;
 }
-.book-body > .notes {
+.book-body > #notes {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -247,7 +248,8 @@
 }
 
 /* The Close Button */
-.close {
+.close,
+.book-card-close {
     color: var(--blackGray-color);
     float: right;
     font-size: 38px;
@@ -255,7 +257,9 @@
 }
 
 .close:hover,
-.close:focus {
+.close:focus,
+.book-card-close:hover,
+.book-card-close:focus {
     color: rgb(255, 146, 145);
     text-decoration: none;
     cursor: pointer;
