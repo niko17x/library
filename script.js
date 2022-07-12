@@ -1,6 +1,10 @@
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
 
+const bookLibrary = document.querySelector('.book-library');
+
+
+
 
 // MAIN BUTTON "ADD BOOK" MODAL:
 // Get the modal
@@ -43,6 +47,7 @@ window.addEventListener('click', (event) => {
 
 
 
+
 // INPUT FORM:
 const title = document.getElementById('title');
 const author = document.getElementById('author');
@@ -63,14 +68,23 @@ const myBtn = document.getElementById('myBtn');
 // };
 
 let myLibrary = [
-    {
-        title: 'Harry Potter',
-        author: 'JK Rowling',
-        pages: 300,
-        genre: 'Magic',
-        notes: 'This is an example notes blah blah blah.'
-    }
+    // {
+    //     title: 'Harry Potter',
+    //     author: 'JK Rowling',
+    //     pages: 300,
+    //     genre: 'Magic',
+    //     notes: 'This is an example notes blah blah blah.'
+    // },
+    // {
+    //     title: 'The Hobbit',
+    //     author: 'Not sure',
+    //     pages: 300,
+    //     genre: 'Magic',
+    //     notes: 'This is an example notes blah blah blah.'
+    // }
 ];
+
+
 
 class BookInfo {
     constructor(title, author, pages, genre) {
@@ -100,6 +114,7 @@ const addBook = function() {
                 document.querySelector('form').reset(); // clear form after submit.
             };
         };
+        createBookCards();
     });
 };
 addBook();
@@ -117,22 +132,27 @@ function findDuplicate(book) {
 
 
 
-const bookLibrary = document.querySelector('.book-library');
-const divBooks = document.createElement('div');
-const divBookHeader = document.createElement('div');
-const spanClose = document.createElement('span');
-const h2Title = document.createElement('h2');
-const divBookBody = document.createElement('div');
-const newP1 = document.createElement('p');
-const newP2 = document.createElement('p');
-const newP3 = document.createElement('p');
-const newP4 = document.createElement('p');
-const divBookFooter = document.createElement('div');
-const buttonEdit = document.createElement('button');
-const buttonNotRead = document.createElement('button');
+
+
+const testButton = document.getElementById('testButton');
+
+
 
 // Iterate through library and create a "book card" for each book object inside the array:
-function createBookCards() {    
+function createBookCards() {
+    const divBooks = document.createElement('div');
+    const divBookHeader = document.createElement('div');
+    const spanClose = document.createElement('span');
+    const h2Title = document.createElement('h2');
+    const divBookBody = document.createElement('div');
+    const newP1 = document.createElement('p');
+    const newP2 = document.createElement('p');
+    const newP3 = document.createElement('p');
+    const newP4 = document.createElement('p');
+    const divBookFooter = document.createElement('div');
+    const buttonEdit = document.createElement('button');
+    const buttonNotRead = document.createElement('button');
+
     myLibrary.forEach(book => {
         divBooks.classList.add('books');
         bookLibrary.appendChild(divBooks);
@@ -141,7 +161,8 @@ function createBookCards() {
         divBooks.append(divBookHeader);
         
         // Book Title:
-        spanClose.classList.add('close');
+        spanClose.innerHTML = '&times;';
+        spanClose.classList.add('book-card-close');
         h2Title.classList.add('title');
         h2Title.textContent = book.title;
         divBookHeader.append(spanClose, h2Title);
@@ -177,18 +198,35 @@ function createBookCards() {
         divBookFooter.appendChild(buttonEdit);
         divBookFooter.appendChild(buttonNotRead);
     });
-}
-
-// delete later - only used for testing:
-bookLibrary.addEventListener('click', () => {
-    createBookCards();
-});
+};
 
 
 
 
 
-// for (let i=0; i<myLibrary.length; i++) {
-//     console.log(myLibrary[i].title);
-// }
 
+
+
+
+
+
+
+
+
+
+
+
+// Remove "book card" if the X is pressed:
+// const cardSpan = document.querySelector('.book-card-close');
+
+// if (myLibrary.length > 0) {
+//     cardSpan.addEventListener('click', (e) => {
+//         console.log(e.target);
+//     });
+// };    
+
+
+
+
+
+createBookCards();
