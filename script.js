@@ -135,12 +135,6 @@ function findDuplicate(book) {
 
 
 
-
-
-const testButton = document.getElementById('testButton');
-
-
-
 // Iterate through library and create a "book card" for each book object inside the array:
 function createBookCards() {
     const divBooks = document.createElement('div');
