@@ -198,6 +198,7 @@ function createBookCards() {
         divBookFooter.appendChild(buttonEdit);
         divBookFooter.appendChild(buttonNotRead);
     });
+    
 };
 
 
