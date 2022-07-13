@@ -36,12 +36,12 @@
                 </div>
             </div>
             
-            <button id="myBtn">Add Book</button>
+            <button id="myBtn">Add Book ➕</button>
 
             <div class="main">
                 <div class="filter">
                     <h4>Filter By:</h4>
-                    <select name="author" id="author">
+                    <select name="author" id="filter-author">
                         <!-- Adding drop down selections for user. -->
                         <option value="value" selected>Author</option>
                         <option value="jk-rowling">J.K. Rowling</option>
@@ -53,7 +53,7 @@
                         <option value="1001-2000">1001 - 2000 pgs.</option>
                         <option value="2000+">2001+ pgs.</option>
                     </select placeholder="select">
-                    <select name="genre" id="genre">
+                    <select name="genre" id="filter-genre">
                         <option value="value">Genre</option>
                         <option value="horror">Horror</option>
                         <option value="action">Action</option>
@@ -97,22 +97,22 @@
                     <h2>Enter Book Details</h2>
                 </div>
                 <div class="modal-body">
-                    <form action="#" id="add-book-form">
+                    <form action="#" name="form" id="add-book-form">
                         <div class="title input-form">
                             <label for="title"></label>
                             <input type="text" name="title" id="title" placeholder="Title" required>
                         </div>
                         <div class="author input-form">
                             <label for="author"></label>
-                            <input type="text" name="author" id="author" placeholder="Author">
+                            <input type="text" name="author" id="author" placeholder="Author" required>
                         </div>
                         <div class="pages input-form">
                             <label for="pages"></label>
-                            <input type="number" name="pages" id="pages" placeholder="Pages">
+                            <input type="number" name="pages" id="pages" placeholder="Pages" required>
                         </div>
                         <div class="genre input-form">
                             <label for="genre"></label>
-                            <input type="text" name="genre" id="genre" placeholder="Genre">
+                            <input type="text" name="genre" id="genre" placeholder="Genre" required>
                         </div>
                         <div class="rated input-form">
                             <label for="notes"></label>
