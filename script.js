@@ -202,8 +202,22 @@ function removeBookCard() {
 
 
 
+// If input value in the form is empty and user clicks on 'submit' button => Form does NOT submit and error messages shows user to fill in input.
+
+const inputElement = document.querySelector('input');
+const mainForm = document.querySelectorAll('form');
+const form1 = mainForm[0];
 
 
+function inputEmpty() {
+    Array.from(form1.elements).forEach((input) => {
+        if (input.id != 'btn') {
+            if (input.value.length < 1) return true; // Input IS empty.
+        };
+    });
+};
+
+inputEmpty();
 
 
 
