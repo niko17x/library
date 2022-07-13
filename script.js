@@ -57,15 +57,6 @@ const notes = document.getElementById('notes');
 const submitBtn = document.getElementById('btn');
 const myBtn = document.getElementById('myBtn');
 
-// class Book {
-//     constructor(title, author, pages, genre) {
-//     this.title = document.getElementById('title'),
-//     this.author = document.getElementById('author'),
-//     this.pages = document.getElementById('pages'),
-//     this.genre = document.getElementById('genre')
-//     // this.notes = notes
-//     };
-// };
 
 let myLibrary = [
     // {
@@ -97,6 +88,7 @@ class BookInfo {
     };
 };
 
+
 // Add new book to library array:
 const addBook = function() {
     submitBtn.addEventListener('click', (e) => {
@@ -118,7 +110,7 @@ const addBook = function() {
         document.querySelector('form').reset(); // clear form after submit.
     });
 };
-addBook();
+
 
 
 function findDuplicate(book) {
@@ -217,7 +209,6 @@ function removeBookCard() {
     window.addEventListener('click', onClick);
 };
 
-removeBookCard();
 
 
 
@@ -225,3 +216,27 @@ removeBookCard();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function mainFunction() {
+    addBook();
+    removeBookCard();
+}
+mainFunction();
