@@ -1,7 +1,15 @@
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
-
 const bookLibrary = document.querySelector('.book-library');
+
+// INPUT FORM:
+const title = document.getElementById('title');
+const author = document.getElementById('author');
+const pages = document.getElementById('pages');
+const genre = document.getElementById('genre');
+const notes = document.getElementById('notes');
+const submitBtn = document.getElementById('btn');
+const myBtn = document.getElementById('myBtn');
 
 
 
@@ -41,22 +49,7 @@ window.addEventListener('click', (event) => {
 
 
 
-
-
-
-
-
-
-
-// INPUT FORM:
-const title = document.getElementById('title');
-const author = document.getElementById('author');
-const pages = document.getElementById('pages');
-const genre = document.getElementById('genre');
-const notes = document.getElementById('notes');
-const submitBtn = document.getElementById('btn');
-const myBtn = document.getElementById('myBtn');
-
+// MAIN:
 
 let myLibrary = [
     // {
@@ -74,10 +67,6 @@ let myLibrary = [
     //     notes: 'This is an example notes blah blah blah.'
     // }
 ];
-
-
-
-
 
 class BookInfo {
     constructor(title, author, pages, genre) {
@@ -112,12 +101,10 @@ const addBook = function() {
 };
 
 
-
+// Finding duplicate book entries:
 function findDuplicate(book) {
     for (let i=0; i<myLibrary.length; i++) {
-        if (myLibrary[i].title === book) {
-            return true;
-        };
+        if (myLibrary[i].title === book) return true;
     };
     return false;
 };
@@ -187,11 +174,6 @@ function createBookCards() {
         divBookFooter.appendChild(buttonNotRead);
     });
 };
-
-
-
-
-
 
 
 // Remove book from myLibrary if X is clicked on:
