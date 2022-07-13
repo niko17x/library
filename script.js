@@ -106,18 +106,16 @@ const addBook = function() {
             myLibrary.push(newBook); // Add first book to library.
             alert(`${title.value} has been added to your library!`);
             createBookCards();
-            document.querySelector('form').reset(); // clear form after submit.
         } else {
             if (findDuplicate(newBook.title) === true) { // Dup exists.
                 alert(`${title.value} already exists in your library.`);
-                document.querySelector('form').reset(); // clear form after submit.
             } else {
                 myLibrary.push(newBook);
                 alert(`${title.value} has been added to your library.`);
                 createBookCards();
-                document.querySelector('form').reset(); // clear form after submit.
             };
         };
+        document.querySelector('form').reset(); // clear form after submit.
     });
 };
 addBook();
@@ -226,15 +224,4 @@ removeBookCard();
 
 
 
-
-
-
-// myLibrary.forEach(book => {
-//     if (book.title === e.target.id) { // Check if the object title matches the id of the element "X" that was clicked on.
-//         myLibrary.splice(book); // Delete book from myLibrary.
-//         alert('Book Deleted');
-//         // Delete entire DOM parent element of book card:
-//         document.getElementById(spanId).parentNode.parentNode.remove(); // Delete DOM element.
-//     };
-// });
 
