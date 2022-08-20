@@ -14,6 +14,13 @@ const myBtn = document.getElementById('myBtn');
 
 
 
+
+
+
+
+
+
+
 // MAIN BUTTON "ADD BOOK" MODAL:
 // Get the modal
 const modal = document.getElementById("myModal");
@@ -46,6 +53,7 @@ window.addEventListener('click', (event) => {
         main.classList.remove('is-blurred');
     }
 });
+
 
 
 
@@ -236,3 +244,83 @@ function mainFunction() {
     removeBookCard();
 }
 mainFunction();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ! Testing area below only:
+// THIS FILE IS ONLY FOR STORING 'POSSIBLE' FUNCTIONS:
+
+// If input value in the form is empty and user clicks on 'submit' button => Form does NOT submit and error messages shows user to fill in input.
+// const mainForm = document.querySelectorAll('form');
+// const form1 = mainForm[0];
+
+// const titleErrorMessage = document.querySelector('.title-error-message');
+// const authorErrorMessage = document.querySelector('.author-error-message');
+
+// function inputEmpty() {
+//     Array.from(form1.elements).forEach((input) => {
+//         // if (input.value.length > 1) console.log(input.value);
+//         if (input.value === "") {
+//             if (input.id === 'title') {
+//                 titleErrorMessage.innerHTML = ("PLEASE COMPLETE: " + (input.id).toUpperCase());
+//                 input.classList.add('error-glow')
+//                 console.log("PLEASE COMPLETE: " + (input.id).toUpperCase())
+//             };
+//             if (input.id === 'author') {
+//                 authorErrorMessage.textContent = ("PLEASE COMPLETE: " + (input.id).toUpperCase());
+//                 input.classList.add('error-glow')
+//                 console.log("PLEASE COMPLETE: " + (input.id).toUpperCase())
+//             };
+//         } else if (input.value != "") {
+//             if (input.id === 'title') {
+//                 titleErrorMessage.innerHTML = '✓';
+//                 input.classList.remove('error-glow');
+//                 input.classList.add('success-glow');
+//                 console.log("PLEASE COMPLETE: " + (input.id).toUpperCase())
+//             };
+//             if (input.id === 'author') {
+//                 authorErrorMessage.textContent = '✓';
+//                 input.classList.remove('error-glow');
+//                 input.classList.add('success-glow');
+//                 console.log("PLEASE COMPLETE: " + (input.id).toUpperCase())
+//             };
+//         };
+//     });
+// };
+
+
+
+// inputEmpty();

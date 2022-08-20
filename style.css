@@ -348,3 +348,28 @@ button[type=submit]:hover {
 .is-blurred {
     filter: blur(4px);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.error-glow {
+    box-shadow: 0 0 8px rgb(238, 112, 81);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgb(238, 112, 81);
+}
+
+.success-glow {
+    box-shadow: 0 0 8px rgb(84, 238, 81);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgb(84, 238, 81);
+}
