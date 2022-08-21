@@ -10,9 +10,11 @@ const genre = document.getElementById('genre');
 const notes = document.getElementById('notes');
 const submitBtn = document.getElementById('btn');
 const myBtn = document.getElementById('myBtn');
+const inputForm = document.querySelectorAll('input');
 const modal = document.getElementById("myModal"); // Main button 'Add Book' modal.
 const btn = document.getElementById("myBtn"); // Opens the Modal.
 const span = document.getElementsByClassName("close")[0]; // Span element closes the Modal.
+
 
 
 // DEAL WITH MODAL FUNCTION:
@@ -24,22 +26,24 @@ class ModalEvents {
             main.classList.add('is-blurred');
         })
     };
+
+    static removeModal() {
+        modal.style.display = 'none';
+        header.classList.remove('is-blurred');
+        main.classList.remove('is-blurred');
+    };
     
     //? Is there a way to create a 'parent event listener' to share common DOM elements?
     static closeModal() {
         window.addEventListener('click', (event) => {
             if (event.target == modal) {
-                modal.style.display = 'none';
-                header.classList.remove('is-blurred');
-                main.classList.remove('is-blurred');
-            }
+                ModalEvents.removeModal();
+            };
         });
     };
     static closeSpanModal() {
         span.addEventListener('click', () => {
-            modal.style.display = 'none';
-            header.classList.remove('is-blurred');
-            main.classList.remove('is-blurred');
+            ModalEvents.removeModal();
         });
     };
 };
@@ -60,7 +64,7 @@ class Book {
 
 class Render {
     static displayBooks() {
-        const pretendLocalStorage = [
+        const pretendLocalStorage = [ // Delete later.
             {
                 title: 'Book One',
                 author: 'Author One',
@@ -72,6 +76,9 @@ class Render {
                 author: 'Author Two',
                 pages: 200,
                 genre: 'Magic Two',
+            },
+            {
+                title: 'Book Three'
             }
         ];
 
@@ -140,43 +147,33 @@ class Render {
         buttonNotRead.textContent = 'Not Read'
         divBookFooter.appendChild(buttonEdit);
         divBookFooter.appendChild(buttonNotRead);
+    };
 
-    };    
+    // Reset all value fields in input form:
+    static clearFields() {
+        inputForm.forEach((input) => {
+            input.value = "";
+        })
+    }
 };
 
+
+
+// Event: Method calls:
 document.addEventListener('DOMContentLoaded', Render.displayBooks)
 
+// Event: Adding book:
+//? Find out why 'submit' doesn't process the event.
+submitBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevents 'submit' event from submitting.
 
+    const book = new Book(title.value, author.value, pages.value, genre.value);
+    Render.createBookCards(book);
 
+    Render.clearFields();
+    modal.style.display = "";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+})
 
 
 
