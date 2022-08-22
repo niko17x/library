@@ -1,3 +1,10 @@
+// TODO:
+/**
+ * 1. Add ellipsis incase text in input form is too long.
+ */
+
+
+
 
 // DOM SELECTORS:
 const header = document.querySelector('.header');
@@ -14,6 +21,8 @@ const inputForm = document.querySelectorAll('input');
 const modal = document.getElementById("myModal"); // Main button 'Add Book' modal.
 const btn = document.getElementById("myBtn"); // Opens the Modal.
 const span = document.getElementsByClassName("close")[0]; // Span element closes the Modal.
+
+const bookCardClose = document.querySelectorAll('.book-card-close');
 
 
 
@@ -149,12 +158,22 @@ class Render {
         divBookFooter.appendChild(buttonNotRead);
     };
 
+    static deleteBook(element) {
+        if (element.classList.contains('book-card-close')) {
+            element.parentNode.parentNode.remove();
+        }
+    };
+
     // Reset all value fields in input form:
     static clearFields() {
         inputForm.forEach((input) => {
             input.value = "";
         })
+        ModalEvents.closeModal();
     }
+
+
+
 };
 
 
@@ -170,41 +189,15 @@ submitBtn.addEventListener('click', (e) => {
     const book = new Book(title.value, author.value, pages.value, genre.value);
     Render.createBookCards(book);
 
-    Render.clearFields();
-    modal.style.display = "";
+    Render.clearFields(); // Clear inputs in form.
+    ModalEvents.removeModal(); // Remove modal input form.
 
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Click on the span target and remove the parent, parent element of that span.
+window.addEventListener('click', (e) => {
+    Render.deleteBook(e.target);
+})
 
 
 
