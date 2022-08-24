@@ -23,7 +23,7 @@ const btn = document.getElementById("myBtn"); // Opens the Modal.
 const span = document.getElementsByClassName("close")[0]; // Span element closes the Modal.
 
 const bookCardClose = document.querySelectorAll('.book-card-close');
-
+const formMessage = document.querySelector('.form-message');
 
 
 // DEAL WITH MODAL FUNCTION:
@@ -40,6 +40,9 @@ class ModalEvents {
         modal.style.display = 'none';
         header.classList.remove('is-blurred');
         main.classList.remove('is-blurred');
+        formMessage.innerText = "";
+        Render.clearFields();
+
     };
     
     //? Is there a way to create a 'parent event listener' to share common DOM elements?
@@ -160,23 +163,39 @@ class Render {
 
     static deleteBook(element) {
         if (element.classList.contains('book-card-close')) {
-            element.parentNode.parentNode.remove();
+            element.parentNode.parentNode.remove(); // Remove entire structure.
         }
     };
+
+
+    // Success / Error message for input forms:
+    static errorInput(element) {
+        formMessage.classList.add('error-glow');
+        formMessage.innerText = `${element.id} is required.`
+        setTimeout(() => formMessage.classList.remove('error-glow'), 3000);
+        setTimeout(() => formMessage.innerText = "", 3000);
+    };
+
+    static successInput(element) {
+        formMessage.classList.add('success-glow');
+        formMessage.innerText = `${element.value} has been successfully added.`
+        setTimeout(() => formMessage.classList.remove('success-glow'), 3000);
+        setTimeout(() => formMessage.innerText = "", 3000);
+    }
 
     // Reset all value fields in input form:
     static clearFields() {
         inputForm.forEach((input) => {
             input.value = "";
+            input.parentNode.classList.remove('error-glow');
+            input.parentNode.classList.remove('success-glow');
         })
         ModalEvents.closeModal();
-    }
-
-
+    };
 
 };
 
-
+ 
 
 // Event: Method calls:
 document.addEventListener('DOMContentLoaded', Render.displayBooks)
@@ -186,12 +205,18 @@ document.addEventListener('DOMContentLoaded', Render.displayBooks)
 submitBtn.addEventListener('click', (e) => {
     e.preventDefault(); // Prevents 'submit' event from submitting.
 
-    const book = new Book(title.value, author.value, pages.value, genre.value);
-    Render.createBookCards(book);
-
-    Render.clearFields(); // Clear inputs in form.
-    ModalEvents.removeModal(); // Remove modal input form.
-
+    // Validate:
+    if (title.value === "") {
+        Render.errorInput(title);
+    } else {
+        const book = new Book(title.value, author.value, pages.value, genre.value);
+        Render.createBookCards(book);
+        Render.successInput(title)
+    
+        Render.clearFields(); // Clear inputs in form.
+        // ModalEvents.removeModal(); // Remove modal input form.
+    
+    };
 })
 
 // Click on the span target and remove the parent, parent element of that span.
@@ -206,3 +231,23 @@ window.addEventListener('click', (e) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+window.addEventListener('click', (e) => {
+    console.log(e.target)
+})
