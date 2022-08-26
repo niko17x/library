@@ -154,10 +154,10 @@ class Render {
         newP3.setAttribute('id', 'genre');
         divBookBody.appendChild(newP3);
     
-        // Notes section:
-        newP4.textContent = 'Notes: ' + book.notes;
-        newP4.setAttribute('id', 'notes');
-        divBookBody.appendChild(newP4);
+        // // Notes section:
+        // newP4.textContent = 'Notes: ' + book.notes;
+        // newP4.setAttribute('id', 'notes');
+        // divBookBody.appendChild(newP4);
     
         divBookFooter.classList.add('book-footer');
         divBooks.appendChild(divBookFooter);
@@ -166,7 +166,6 @@ class Render {
         label.classList.add('switch');
         input.setAttribute('type', 'checkbox');
         span.classList.add('slider');
-        // span.innerText = 'Read'
         label.appendChild(input);
         label.appendChild(span);
         divBookFooter.appendChild(label);
@@ -226,7 +225,9 @@ class Render {
  
 
 // Event: Method calls:
-document.addEventListener('DOMContentLoaded', Render.displayBooks)
+const renderBooks = (() => {
+    document.addEventListener('DOMContentLoaded', Render.displayBooks)
+})();
 
 // Event: Adding book:
 //? Find out why 'submit' doesn't process the event.
