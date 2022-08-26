@@ -203,6 +203,12 @@ class Render {
         setTimeout(() => div.remove(), 3000) // Remove entire div element.
     };
 
+    // !! TICKET: SUCCESS MESSAGE DIV IS NOT BEING CREATED WHEN ADDING A BOOK.
+
+
+
+
+
     // Display empty strings if input in form has not been filled out:
     static removeUndefined(...element) {
         console.log(element[0]);
