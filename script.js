@@ -41,7 +41,6 @@ class ModalEvents {
         modal.style.display = 'none';
         header.classList.remove('is-blurred');
         main.classList.remove('is-blurred');
-        formMessage.innerText = "";
         Render.clearFields();
 
     };
@@ -189,8 +188,6 @@ class Render {
         setTimeout(() => div.remove(), 3000) // Remove entire div element.
     };
 
-//! Working on creating new div element for input error and success message. New div should be created in modal based on the condition of input requirements.
-
     // Display empty strings if input in form has not been filled out:
     static removeUndefined(...element) {
         console.log(element[0]);
@@ -217,32 +214,33 @@ document.addEventListener('DOMContentLoaded', Render.displayBooks)
 
 // Event: Adding book:
 //? Find out why 'submit' doesn't process the event.
-submitBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Prevents 'submit' event from submitting.
-
-    // Validate:
-    if (title.value === "") { // Book card not created.
-        Render.inputMessage(title);
-    } else if (author.value === "") {
-        Render.inputMessage(author);
-    } else {
-        const book = new Book(title.value, author.value, pages.value, genre.value); // Book card created.
-        Render.createBookCards(book);
+const createNewBook = (() => {
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevents 'submit' event from submitting.
     
-        Render.clearFields(); // Clear inputs in form.
-    }
+        // Validate:
+        if (title.value === "") { // Book card not created.
+            Render.inputMessage(title);
+        } else if (author.value === "") {
+            Render.inputMessage(author);
+        } else {
+            const book = new Book(title.value, author.value, pages.value, genre.value); // Book card created.
+            Render.createBookCards(book);
+            Render.clearFields(); // Clear inputs in form.
+        }
+    });
+})();
 
 
 
 
-
-
-})
 
 // Click on the span target and remove the parent, parent element of that span.
-window.addEventListener('click', (e) => {
-    Render.deleteBook(e.target);
-})
+const removeBookCard = (() => {
+    window.addEventListener('click', (e) => {
+        Render.deleteBook(e.target);
+    })
+})();
 
 
 

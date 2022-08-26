@@ -142,15 +142,19 @@
     align-self: center;
 }
 
+
+/*! STYLING THE BOOK CARDS SECTION: */
 .book-library {
     display: grid;
     gap: 3rem;
     grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
 }
 .books {
-    border: 1px solid black;
+    border: 5px solid black;
     border-radius: 10px;
     padding: 1rem;
+
+    box-shadow: 0 15px 6px -6px rgb(100, 100, 100);
 }
 .book-header {
     border-bottom: 2px solid var(--lightGreen-color);
@@ -178,6 +182,62 @@
 }
 .book-footer > button{
     cursor: pointer;
+}
+/* STYLING TOGGLE SWITCH FOR READ/UNREAD */
+/* https://www.w3schools.com/howto/howto_css_switch.asp */
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+/* Hide default HTML checkbox */
+.switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+/* The slider */
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+-webkit-transition: .4s;
+transition: .4s;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 26px;
+width: 26px;
+left: 4px;
+bottom: 4px;
+background-color: white;
+-webkit-transition: .4s;
+transition: .4s;
+}
+input:checked + .slider {
+background-color: #2196F3;
+}
+input:focus + .slider {
+box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+-webkit-transform: translateX(26px);
+-ms-transform: translateX(26px);
+transform: translateX(26px);
+}
+/* Rounded sliders */
+.slider.round {
+border-radius: 34px;
+}
+.slider.round:before {
+border-radius: 50%;
 }
 
 
@@ -357,12 +417,13 @@ button[type=submit]:hover {
 
 
 
-.form-message {
+.form-message,
+.modal-body > div {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
-    padding: 0;
+    padding: 5px;
     /* color: rgb(238, 112, 81); */
     font-weight: 700;
 }
