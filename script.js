@@ -25,6 +25,7 @@ const span = document.getElementsByClassName("close")[0]; // Span element closes
 
 const bookCardClose = document.querySelectorAll('.book-card-close');
 const formMessage = document.querySelector('.form-message');
+const readToggle = document.querySelector('.read-toggle');
 
 
 // DEAL WITH MODAL FUNCTION:
@@ -113,6 +114,12 @@ class Render {
         const divBookFooter = document.createElement('div');
         const buttonEdit = document.createElement('button');
         const buttonNotRead = document.createElement('button');
+        
+        //! TESTING:
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        const span = document.createElement('span');
+
 
        
         divBooks.classList.add('books');
@@ -155,11 +162,20 @@ class Render {
         divBookFooter.classList.add('book-footer');
         divBooks.appendChild(divBookFooter);
     
-        buttonEdit.textContent = 'Edit';
-        buttonNotRead.textContent = 'Not Read'
-        divBookFooter.appendChild(buttonEdit);
-        divBookFooter.appendChild(buttonNotRead);
+        // Create toggle for read/unread:
+        label.classList.add('switch');
+        input.setAttribute('type', 'checkbox');
+        span.classList.add('slider');
+        // span.innerText = 'Read'
+        label.appendChild(input);
+        label.appendChild(span);
+        divBookFooter.appendChild(label);
     };
+
+    // Toggle based on whether book is read or not:
+    static readStatus() {
+
+    }
 
     static deleteBook(element) {
         if (element.classList.contains('book-card-close')) {
