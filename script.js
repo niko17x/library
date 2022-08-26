@@ -1,6 +1,7 @@
 // TODO:
 /**
  * 1. Add ellipsis incase text in input form is too long.
+ * 2. Clicking on the title of the book card expands a modal with full details of book.
  */
 
 
@@ -167,34 +168,48 @@ class Render {
         }
     };
 
+    // Create message div for form input:
+    //? How do I use a spread operator to pass in multiple arguments?
+    static inputMessage(element) {
+        const div = document.createElement('div'); // Create new Div.
+        const modalBody = document.querySelector('.modal-body'); // Get parent element.
+        const addBookForm = document.querySelector('#add-book-form'); // Reference node.
 
-    // Success / Error message for input forms:
-    static errorInput(element) {
-        formMessage.classList.add('error-glow');
-        formMessage.innerText = `${element.id} is required.`
-        setTimeout(() => formMessage.classList.remove('error-glow'), 3000);
-        setTimeout(() => formMessage.innerText = "", 3000);
+        // Empty input values:
+        if (element.value === "" || element.value == null) {
+            div.className = 'error-glow';
+            div.innerText = `${element.id} is required.`
+        } else {
+            div.className = 'success-glow';
+            div.innerText = `${element.value} has been successfully added!`
+        }
+        modalBody.insertBefore(div, addBookForm);
+        setTimeout(() => div.classList.remove('error-glow'), 3000); // Remove class.
+        setTimeout(() => div.classList.remove('success-glow'), 3000);
+        setTimeout(() => div.remove(), 3000) // Remove entire div element.
     };
 
-    static successInput(element) {
-        formMessage.classList.add('success-glow');
-        formMessage.innerText = `${element.value} has been successfully added.`
-        setTimeout(() => formMessage.classList.remove('success-glow'), 3000);
-        setTimeout(() => formMessage.innerText = "", 3000);
+//! Working on creating new div element for input error and success message. New div should be created in modal based on the condition of input requirements.
+
+    // Display empty strings if input in form has not been filled out:
+    static removeUndefined(...element) {
+        console.log(element[0]);
     }
 
     // Reset all value fields in input form:
     static clearFields() {
         inputForm.forEach((input) => {
             input.value = "";
-            input.parentNode.classList.remove('error-glow');
-            input.parentNode.classList.remove('success-glow');
         })
         ModalEvents.closeModal();
     };
 
 };
 
+
+
+
+// EVENT LISTENERS BELOW:
  
 
 // Event: Method calls:
@@ -206,35 +221,28 @@ submitBtn.addEventListener('click', (e) => {
     e.preventDefault(); // Prevents 'submit' event from submitting.
 
     // Validate:
-    if (title.value === "") {
-        Render.errorInput(title);
+    if (title.value === "") { // Book card not created.
+        Render.inputMessage(title);
+    } else if (author.value === "") {
+        Render.inputMessage(author);
     } else {
-        const book = new Book(title.value, author.value, pages.value, genre.value);
+        const book = new Book(title.value, author.value, pages.value, genre.value); // Book card created.
         Render.createBookCards(book);
-        Render.successInput(title)
     
         Render.clearFields(); // Clear inputs in form.
-        // ModalEvents.removeModal(); // Remove modal input form.
-    
-    };
+    }
+
+
+
+
+
+
 })
 
 // Click on the span target and remove the parent, parent element of that span.
 window.addEventListener('click', (e) => {
     Render.deleteBook(e.target);
 })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
