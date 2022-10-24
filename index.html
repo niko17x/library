@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&family=Raleway&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Finlandica:wght@400;600&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
@@ -112,17 +113,33 @@
                             <label for="pages"></label>
                             <input type="number" name="pages" id="modal-pages" placeholder="Pages">
                         </div>
-                        <div class="genre input-form">
-                            <label for="genre"></label>
-                            <input type="text" name="genre" id="modal-genre" placeholder="Genre">
+                        <!-- Modal Genre selector: -->
+                        <div class="select-menu input-form">
+                          <div class="select-btn">
+                            <span class="sBtn-text">Select your genre</span>
+                            <i class="bx bx-chevron-down"></i>
+                          </div>
+                          <ul class="options">
+                            <li class="option">
+                              <i class="bx bxl-action-square" style="color: #0E76A8;"></i>
+                              <span class="option-text">Action</span>
+                            </li>
+                            <li class="option">
+                              <i class="bx bxl-horror-alt" style="color: #E1306C;"></i>
+                              <span class="option-text">Horror</span>
+                            </li>
+                            <li class="option">
+                              <i class="bx bxl-adventure-circle" style="color: #4267B2;"></i>
+                              <span class="option-text">Adventure</span>
+                            </li>
+                            <li class="option">
+                              <i class="bx bxl-self-improvement" style="color: #1DA1F2;"></i>
+                              <span class="option-text">Self-Improvement</span>
+                            </li>
+                          </ul>
                         </div>
-                        <!-- <div class="rated input-form">
-                            <label for="notes"></label>
-                            <input type="text" name="rated" id="rated" placeholder="Notes">
-                            <textarea name="notes" id="notes" cols="34" rows="2"></textarea>
-                        </div> -->
                         <button class="modal-submit-btn" id="add-book-form">Submit</button>
-                    </form>
+                      </form>
                 </div>
                 <div class="modal-footer">
                 </div>
