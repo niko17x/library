@@ -120,15 +120,9 @@ ModalEvents.openModal();
 ModalEvents.closeModal();
 ModalEvents.closeSpanModal();
 
-// function displayBooks() {
-//   myLibrary.forEach((book) => {
-//     renderBookCards(book);
-//   });
-// }
-
 // Iterate through library and create a "book card" for each book object inside the array:
 
-function renderBookCards(book) {
+function renderBookCards() {
   clearElement(bookLibrary);
   myLibrary.forEach((entry) => {
     const divBooks = document.createElement("div");
@@ -238,12 +232,13 @@ function clearElement(element) {
 
 // Click on the span target and remove the parent, parent element of that span.
 
-const bookCardClose = document.querySelector(".book-card-close");
 bookLibrary.addEventListener("click", (e) => {
   if (e.target.classList.contains("book-card-close")) {
-    // deleteBook(e.target);
+    // Select book object id that matches the clicked-on target id:
 
     const selectedId = myLibrary.find((item) => item.id === e.target.id);
+
+    // Delete the book object from 'myLibrary' array:
 
     myLibrary.splice(myLibrary.indexOf(selectedId), 1);
   }
