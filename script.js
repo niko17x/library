@@ -2,12 +2,19 @@
 
 // LOCAL STORAGE:
 
-const LOCAL_STORAGE_LIST_KEY = "books.";
+const LOCAL_STORAGE_LIST_KEY = "books.myLibrary";
 
-const storedBooks =
+const myLibrary =
   JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 
 // DOM SELECTORS:
+
+// Unused variables:
+// const notes = document.getElementById("notes");
+// const myBtn = document.getElementById("myBtn");
+
+// const formMessage = document.querySelector(".form-message");
+// const readToggle = document.querySelector(".read-toggle");
 
 const header = document.querySelector(".header");
 const main = document.querySelector(".main");
@@ -22,12 +29,58 @@ const modal = document.getElementById("myModal"); // Main button 'Add Book' moda
 const btn = document.getElementById("myBtn"); // Opens the Modal.
 const span = document.getElementsByClassName("close")[0]; // Span element closes the Modal.
 
-// Unused variables:
-// const notes = document.getElementById("notes");
-// const myBtn = document.getElementById("myBtn");
-// const bookCardClose = document.querySelectorAll(".book-card-close");
-// const formMessage = document.querySelector(".form-message");
-// const readToggle = document.querySelector(".read-toggle");
+// ! START TESTING:
+
+function saveAndRender() {
+  save();
+  render();
+}
+
+function render() {
+  renderBookCards();
+}
+
+function save() {
+  localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(myLibrary));
+}
+
+// todo: Convert all classes to functions?
+// Array to store book objects:
+
+function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
+  return {
+    id: Date.now().toString(),
+    title: bookTitle,
+    author: bookAuthor,
+    pages: bookPages,
+    genre: bookGenre,
+  };
+}
+
+// function that adds the new book object into the 'myLibrary' array:
+
+const modalBtn = document.querySelector(".modal-submit-btn");
+
+modalBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const modalTitleInput = document.querySelector("#modal-title").value;
+  const modalAuthorInput = document.querySelector("#modal-author").value;
+  const modalPagesInput = document.querySelector("#modal-pages").value;
+  const modalGenreInput = document.querySelector("#modal-genre").value;
+
+  const result = CreateBook(
+    modalTitleInput,
+    modalAuthorInput,
+    modalPagesInput,
+    modalGenreInput
+  );
+
+  myLibrary.push(result);
+  saveAndRender();
+});
+
+// ! END TESTING:
 
 // DEAL WITH MODAL FUNCTION:
 
@@ -44,7 +97,7 @@ class ModalEvents {
     modal.style.display = "none";
     header.classList.remove("is-blurred");
     main.classList.remove("is-blurred");
-    Render.clearFields();
+    clearInputFields();
   }
 
   // ? Is there a way to create a 'parent event listener' to share common DOM elements?
@@ -67,48 +120,19 @@ ModalEvents.openModal();
 ModalEvents.closeModal();
 ModalEvents.closeSpanModal();
 
-class Book {
-  constructor(bookTitle, bookAuthor, bookPages, bookGenre) {
-    this.title = bookTitle;
-    this.author = bookAuthor;
-    this.pages = bookPages;
-    this.book = bookGenre;
-  }
-}
+// function displayBooks() {
+//   myLibrary.forEach((book) => {
+//     renderBookCards(book);
+//   });
+// }
 
-class Render {
-  static displayBooks() {
-    const pretendLocalStorage = [
-      // Delete later.
+// Iterate through library and create a "book card" for each book object inside the array:
 
-      {
-        title: "Book One",
-        author: "Author One",
-        pages: 100,
-        genre: "Magic One",
-      },
-      {
-        title: "Book Two",
-        author: "Author Two",
-        pages: 200,
-        genre: "Magic Two",
-      },
-      {
-        title: "Book Three",
-      },
-    ];
-
-    const myLibrary = pretendLocalStorage;
-
-    myLibrary.forEach((book) => {
-      Render.createBookCards(book);
-    });
-  }
-
-  // Iterate through library and create a "book card" for each book object inside the array:
-
-  static createBookCards(book) {
+function renderBookCards(book) {
+  clearElement(bookLibrary);
+  myLibrary.forEach((entry) => {
     const divBooks = document.createElement("div");
+    divBooks.id = entry.id; // Adding unique date id to div.
     const divBookHeader = document.createElement("div");
     const spanClose = document.createElement("span");
     const h2Title = document.createElement("h2");
@@ -130,11 +154,12 @@ class Render {
 
     // Book Title:
 
-    spanClose.setAttribute("id", book.title);
+    spanClose.setAttribute("id", entry.title);
+    spanClose.id = entry.id;
     spanClose.innerHTML = "&times;";
     spanClose.classList.add("book-card-close");
     h2Title.classList.add("title");
-    h2Title.textContent = book.title;
+    h2Title.textContent = entry.title;
     divBookHeader.append(spanClose, h2Title);
 
     divBookBody.classList.add("book-body");
@@ -142,19 +167,19 @@ class Render {
 
     // Author section:
 
-    newP1.textContent = `Author: ${book.author}`;
+    newP1.textContent = `Author: ${entry.author}`;
     newP1.setAttribute("id", "author");
     divBookBody.appendChild(newP1);
 
     // Pages section:
 
-    newP2.textContent = `No. of Pages: ${book.pages}`;
+    newP2.textContent = `No. of Pages: ${entry.pages}`;
     newP2.setAttribute("id", "no-of-pages");
     divBookBody.appendChild(newP2);
 
     // Genre section:
 
-    newP3.textContent = `Genre: ${book.genre}`;
+    newP3.textContent = `Genre: ${entry.genre}`;
     newP3.setAttribute("id", "genre");
     divBookBody.appendChild(newP3);
 
@@ -169,93 +194,68 @@ class Render {
     label.appendChild(input);
     label.appendChild(span1);
     divBookFooter.appendChild(label);
+  });
+}
+
+function deleteBook(element) {
+  element.parentNode.parentNode.remove();
+}
+
+function inputMessage(element) {
+  const div = document.createElement("div"); // Create new Div.
+  const modalBody = document.querySelector(".modal-body"); // Get parent element.
+  const addBookForm = document.querySelector("#add-book-form"); // Reference node.
+
+  // Empty input values:
+
+  if (element.value === "" || element.value == null) {
+    div.className = "error-glow";
+    div.innerText = `${element.id} is required.`;
+  } else {
+    div.className = "success-glow";
+    div.innerText = `${element.value} has been successfully added!`;
   }
+  modalBody.insertBefore(div, addBookForm);
+  setTimeout(() => div.classList.remove("error-glow"), 3000); // Remove class.
+  setTimeout(() => div.classList.remove("success-glow"), 3000);
+  setTimeout(() => div.remove(), 3000); // Remove entire div element.
+}
 
-  // Toggle based on whether book is read or not:
+function clearInputFields() {
+  inputForm.forEach((input) => {
+    input.value = "";
+  });
+  ModalEvents.closeModal();
+}
 
-  static readStatus() {}
+// Recursively clear out the child elements from the given element:
 
-  static deleteBook(element) {
-    if (element.classList.contains("book-card-close")) {
-      element.parentNode.parentNode.remove(); // Remove entire structure.
-    }
-  }
-
-  // Create message div for form input:
-  // ? How do I use a spread operator to pass in multiple arguments?
-
-  static inputMessage(element) {
-    const div = document.createElement("div"); // Create new Div.
-    const modalBody = document.querySelector(".modal-body"); // Get parent element.
-    const addBookForm = document.querySelector("#add-book-form"); // Reference node.
-
-    // Empty input values:
-
-    if (element.value === "" || element.value == null) {
-      div.className = "error-glow";
-      div.innerText = `${element.id} is required.`;
-    } else {
-      div.className = "success-glow";
-      div.innerText = `${element.value} has been successfully added!`;
-    }
-    modalBody.insertBefore(div, addBookForm);
-    setTimeout(() => div.classList.remove("error-glow"), 3000); // Remove class.
-    setTimeout(() => div.classList.remove("success-glow"), 3000);
-    setTimeout(() => div.remove(), 3000); // Remove entire div element.
-  }
-
-  // !! TICKET: SUCCESS MESSAGE DIV IS NOT BEING CREATED WHEN ADDING A BOOK.
-
-  // Reset all value fields in input form:
-
-  static clearFields() {
-    inputForm.forEach((input) => {
-      input.value = "";
-    });
-    ModalEvents.closeModal();
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 }
 
-const renderBooks = (() => {
-  document.addEventListener("DOMContentLoaded", Render.displayBooks);
-})();
-
-const createNewBook = (() => {
-  submitBtn.addEventListener("click", (e) => {
-    e.preventDefault(); // Prevents 'submit' event from submitting.
-
-    // Validate:
-
-    if (title.value === "") {
-      // Book card not created.
-
-      Render.inputMessage(title);
-    } else if (author.value === "") {
-      Render.inputMessage(author);
-    } else {
-      const book = new Book(
-        title.value,
-        author.value,
-        pages.value,
-        genre.value
-      ); // Book card created.
-      Render.createBookCards(book);
-      Render.clearFields(); // Clear inputs in form.
-    }
-  });
-})();
-
 // Click on the span target and remove the parent, parent element of that span.
 
-const removeBookCard = (() => {
-  window.addEventListener("click", (e) => {
-    Render.deleteBook(e.target);
-  });
-})();
+const bookCardClose = document.querySelector(".book-card-close");
+bookLibrary.addEventListener("click", (e) => {
+  if (e.target.classList.contains("book-card-close")) {
+    // deleteBook(e.target);
+
+    const selectedId = myLibrary.find((item) => item.id === e.target.id);
+
+    myLibrary.splice(myLibrary.indexOf(selectedId), 1);
+  }
+  saveAndRender();
+});
 
 function printWindow() {
   window.addEventListener("click", (e) => {
     console.log(e.target);
   });
 }
-printWindow();
+
+// printWindow();
+
+render();
