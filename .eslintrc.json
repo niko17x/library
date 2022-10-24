@@ -45,11 +45,13 @@
       // Throws an error if trying to call before defined:
       "no-use-before-define": ["error", {
         "functions": false,
-        "classes": false,
-        "variables": false,
+        "classes": true,
+        "variables": true,
         "allowNamedExports": false
       }],
-      // Error thrown if too many classes in a file:
-      "max-classes-per-file": ["error", 5]
+      // Determines the max amount of classes per file:
+      "max-classes-per-file": ["error", 5],
+      // Allows function parameters to be reassigned:
+      "no-param-reassign": ["error", {"props": false}]
     }
 }
