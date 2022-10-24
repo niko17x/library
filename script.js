@@ -1,4 +1,4 @@
-// TODO: Use local storage to store data /// Deal with 'undefined' in each book /// Add id to each book item ///
+// TODO: WORK ON TOP FORM INPUT VALIDATION
 
 // LOCAL STORAGE:
 
@@ -44,7 +44,6 @@ function save() {
   localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(myLibrary));
 }
 
-// todo: Convert all classes to functions?
 // Array to store book objects:
 
 function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
@@ -57,6 +56,30 @@ function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
   };
 }
 
+// Logic for Modal genre drop down selection:
+
+const optionMenu = document.querySelector(".select-menu");
+const selectBtn = optionMenu.querySelector(".select-btn");
+const options = optionMenu.querySelectorAll(".option");
+const sBtnText = optionMenu.querySelector(".sBtn-text");
+
+// Clicking on 'Select your genre' opens display:
+
+selectBtn.addEventListener("click", () => {
+  optionMenu.classList.toggle("active");
+});
+
+let selectedOption; // Store modal genre user selection.
+
+options.forEach((option) => {
+  option.addEventListener("click", () => {
+    selectedOption = option.querySelector(".option-text");
+    sBtnText.innerText = selectedOption.innerText;
+
+    optionMenu.classList.remove("active");
+  });
+});
+
 // function that adds the new book object into the 'myLibrary' array:
 
 const modalBtn = document.querySelector(".modal-submit-btn");
@@ -67,7 +90,7 @@ modalBtn.addEventListener("click", (e) => {
   const modalTitleInput = document.querySelector("#modal-title").value;
   const modalAuthorInput = document.querySelector("#modal-author").value;
   const modalPagesInput = document.querySelector("#modal-pages").value;
-  const modalGenreInput = document.querySelector("#modal-genre").value;
+  const modalGenreInput = optionMenu.querySelector(".sBtn-text").innerText;
 
   const result = CreateBook(
     modalTitleInput,
