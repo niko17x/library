@@ -28,6 +28,7 @@ const inputForm = document.querySelectorAll("input");
 const modal = document.getElementById("myModal"); // Main button 'Add Book' modal.
 const btn = document.getElementById("myBtn"); // Opens the Modal.
 const span = document.getElementsByClassName("close")[0]; // Span element closes the Modal.
+const modalBtn = document.querySelector(".modal-submit-btn");
 
 // ! START TESTING:
 
@@ -69,12 +70,12 @@ selectBtn.addEventListener("click", () => {
   optionMenu.classList.toggle("active");
 });
 
-let selectedOption; // Store modal genre user selection.
+// Clicking on 'genre selector' will add the active class:
 
 options.forEach((option) => {
   option.addEventListener("click", () => {
-    selectedOption = option.querySelector(".option-text");
-    sBtnText.innerText = selectedOption.innerText;
+    const selectedOption = option.querySelector(".option-text").innerText;
+    sBtnText.innerText = selectedOption;
 
     optionMenu.classList.remove("active");
   });
@@ -82,28 +83,67 @@ options.forEach((option) => {
 
 // function that adds the new book object into the 'myLibrary' array:
 
-const modalBtn = document.querySelector(".modal-submit-btn");
+const modalTitleInput = document.querySelector("#modal-title");
+const modalAuthorInput = document.querySelector("#modal-author");
+const modalPagesInput = document.querySelector("#modal-pages");
+const modalGenreInput = optionMenu.querySelector(".sBtn-text");
 
-modalBtn.addEventListener("click", (e) => {
-  e.preventDefault();
+// ! TESTING:
 
-  const modalTitleInput = document.querySelector("#modal-title").value;
-  const modalAuthorInput = document.querySelector("#modal-author").value;
-  const modalPagesInput = document.querySelector("#modal-pages").value;
-  const modalGenreInput = optionMenu.querySelector(".sBtn-text").innerText;
+// modalTitleInput.addEventListener("input", () => {
+//   if (modalTitleInput.validity.tooShort) {
+//     modalTitleInput.setCustomValidity("Input is too short.");
+//     modalTitleInput.reportValidity();
+//   } else if (modalTitleInput.validity.valueMissing) {
+//     modalTitleInput.setCustomValidity("Please enter the author.");
+//     modalTitleInput.reportValidity();
+//   } else {
+//     modalTitleInput.setCustomValidity("");
+//   }
+// });
 
+const bookForm = document.querySelector(".add-book-form");
+const modalTitle = document.querySelector("#modal-title");
+const spanTitleMsg = document.querySelector(".error-title-msg");
+
+modalTitle.addEventListener("input", (event) => {
+  if (modalTitle.validity.valid) {
+    spanTitleMsg.textContent = "";
+    spanTitleMsg.className = "error";
+  } else {
+    showError();
+  }
+});
+
+// Note: 'Submit' buttons must be fired on the form element not the submit button itself:
+
+document.querySelector("#add-book-form").addEventListener("submit", (e) => {
   const result = CreateBook(
-    modalTitleInput,
-    modalAuthorInput,
-    modalPagesInput,
-    modalGenreInput
+    modalTitleInput.value,
+    modalAuthorInput.value,
+    modalPagesInput.value,
+    modalGenreInput.innerText
   );
 
-  myLibrary.push(result);
+  if (!modalTitle.validity.valid) {
+    showError();
+    e.preventDefault();
+  } else {
+    myLibrary.push(result);
+  }
   saveAndRender();
 });
 
-// ! END TESTING:
+function showError() {
+  if (modalTitle.validity.valueMissing) {
+    spanTitleMsg.textContent = "Please enter the author.";
+  } else if (modalTitle.validity.typeMismatch) {
+    spanTitleMsg.textContent = "Please enter a name.";
+  } else if (modalTitle.validity.tooShort) {
+    spanTitleMsg.textContent = "Please enter the authors full name.";
+  }
+  spanTitleMsg.className = "error active";
+}
 
 // DEAL WITH MODAL FUNCTION:
 
