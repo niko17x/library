@@ -66,23 +66,23 @@
 
 /* MAIN BUTTONS STYLING */
 #myBtn {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    height: 6rem;
-    width: 18rem;
-    font-weight: 600;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 15px 6px -6px rgb(100, 100, 100);
+  position: absolute;
+  left: 50%;
+  height: 6rem;
+  width: 18rem;
+  font-weight: 600;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 15px 6px -6px rgb(100, 100, 100);
 
-    cursor: pointer;
-    padding: 10px 20px;
-    background: rgb(245, 245, 245);
-    font-size: 28px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    transition: all 1s;
-    border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  background: rgb(245, 245, 245);
+  font-size: 28px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  transition: all 1s;
+  border: none;
+  top: 275px;
 }
 
 #myBtn:after,
@@ -277,72 +277,71 @@ transform: translateX(26px);
 
 /* The Modal (background) */
 .modal {
-    display: none;
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    -webkit-animation-name: fadeIn; /* Fade in the background */
-    -webkit-animation-duration: 0.4s;
-    animation-name: fadeIn;
-    animation-duration: 0.4s;
-
-    /* Centering the modal but issue with closing modal. */
-    /* left: 50%;
-    top: 50%;
-    margin-left: -150px;
-    margin-top: -150px; */
-
+  display: none;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.5s;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
 }
 
 /* Modal Content */
 .modal-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  background-color: #fefefe;
+  margin-bottom: 200px;
+  box-shadow: 0 15px 6px -6px rgb(100, 100, 100), 0 -15px 6px -6px rgb(100, 100, 100);
+}
 
+/* Add Animation for Modal pop up when clicked: */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
 
-
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    background-color: #fefefe;
-    -webkit-animation-name: slideIn;
-    -webkit-animation-duration: 0.4s;
-    animation-name: slideIn;
-    animation-duration: 0.4s;
-    margin-bottom: 200px;
-    box-shadow: 0 15px 6px -6px rgb(100, 100, 100), 0 -15px 6px -6px rgb(100, 100, 100);
+@keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
 }
 
 /* The Close Button */
 .close,
 .book-card-close {
-    color: var(--blackGray-color);
-    float: right;
-    font-size: 38px;
-    font-weight: bold;
+  color: var(--blackGray-color);
+  float: right;
+  font-size: 38px;
+  font-weight: bold;
 }
 
 .close:hover,
 .close:focus,
 .book-card-close:hover,
 .book-card-close:focus {
-    color: rgb(255, 146, 145);
-    text-decoration: none;
-    cursor: pointer;
+  color: rgb(255, 146, 145);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .modal-header {
-    padding: 2px 16px;
-    background-color: #c2ffc2;
-    color: var(--blackGray-color);
-    box-shadow: 0 10px 6px -6px var(--blackGray-color);
+  padding: 2px 16px;
+  background-color: #c2ffc2;
+  color: var(--blackGray-color);
+  box-shadow: 0 10px 6px -6px var(--blackGray-color);
 }
 
 h2 {
-    font-size: 2.7rem;
-    text-align: center;
+  font-size: 2.7rem;
+  text-align: center;
 }
   
 .modal-body {
@@ -351,137 +350,90 @@ h2 {
 }
 
 form {
-    display: grid;
-    grid-template-rows: repeat(5, 1fr);
-    justify-content: center;
-    gap: 2rem;
-    padding: 1.2rem;
-    max-height: 70vh;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  justify-content: center;
+  padding: 1.2rem;
+  max-height: 70vh;
 }
 
-.input-form > input,
 .input-form > select {
-    height: 1.5rem;
-    width: 15rem;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    padding: 0;
-    margin: 0;
+  height: 1.5rem;
+  width: 15rem;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding: 0;
+  margin: 0;
 }
 
 option {
   font-size: 20rem;
 }
 
-input[placeholder] {
-    font-size: 1.5rem;
-    padding: 20px;
-}
-  
 .modal-footer {
-    display: grid;
-    padding: 12px 16px;
-    background-color: #c2ffc2;
-    color: white;
+  display: grid;
+  padding: 12px 16px;
+  background-color: #c2ffc2;
+  color: white;
 }
 
+/* Design submit button for modal: */
 .modal-submit-btn {
-  justify-self: center;
-  /* margin: 2rem; */
-  margin: 1rem;
-  border-radius: 5px;
-  height: 3rem;
-  width: 120px;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  color: rgba(0, 0, 0, 0.85);
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+
+  display: grid;
+  place-self: center;
+  font-family: 'Raleway';
+  width: 5rem;
+  margin-top: 1rem;
 }
-/* ! NOT WORKING ATM */
+
+.modal-submit-btn:hover,
+.modal-submit-btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
 .modal-submit-btn:hover {
-    transform: scale(1.1);
-    transition: 300ms;
+  transform: translateY(-1px);
 }
 
-/* Add Animation */
-@-webkit-keyframes slideIn {
-    from {bottom: -300px; opacity: 0} 
-    to {bottom: 0; opacity: 1}
-}
-
-@keyframes slideIn {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
-}
-
-@-webkit-keyframes fadeIn {
-    from {opacity: 0} 
-    to {opacity: 1}
-}
-
-@keyframes fadeIn {
-    from {opacity: 0} 
-    to {opacity: 1}
-}
-
-
-.is-blurred {
-    filter: blur(4px);
+.modal-submit-btn:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
 }
 
 
 
-
-
-
-
-
-/* ! UNORGANIZED CODE: */
-
-
-.form-message,
-.modal-body > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 5px;
-    /* color: rgb(238, 112, 81); */
-    font-weight: 700;
-}
-
-
-.error-glow {
-    box-shadow: 0 0 8px rgb(238, 112, 81);
-    padding: 3px 0px 3px 3px;
-    margin: 5px 1px 3px 0px;
-    border: 1px solid rgb(238, 112, 81);
-
-    color: rgb(238, 112, 81);
-}
-
-.success-glow {
-    box-shadow: 0 0 8px rgb(84, 238, 81);
-    padding: 3px 0px 3px 3px;
-    margin: 5px 1px 3px 0px;
-    border: 1px solid rgb(84, 238, 81);
-
-    color: rgb(84, 238, 81);
-}
-
-
-
-
-
-
-
-
-
-/* !TESTING MODAL SELECTION DROP DOWN: */
+/* ! MODAL => GENRE DROP DOWN SELECTION: */
 .select-menu {
-  width: 15rem;
-  /* margin-bottom: -20rem; */
-  /* max-width: 30rem; */
-  /* margin: 50px auto; */
+  width: 20rem;
 }
+
 .select-menu .select-btn {
   display: flex;
   height: 55px;
@@ -495,6 +447,7 @@ input[placeholder] {
   justify-content: space-between;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
 .select-menu .options {
   position: absolute;
   width: 15rem;
@@ -514,6 +467,7 @@ input[placeholder] {
   /* Prevents 'invisible' drop down menu from being clicked on when clicking on 'submit' modal button: */
   display: none;
 }
+
 .select-menu .options .option {
   display: flex;
   height: 55px;
@@ -523,13 +477,16 @@ input[placeholder] {
   align-items: center;
   background: #fff;
 }
+
 .select-menu .options .option:hover {
   background: #f2f2f2;
 }
+
 .select-menu .options .option i {
   font-size: 25px;
   margin-right: 12px;
 }
+
 .select-menu .options .option .option-text {
   font-size: 18px;
   color: #333;
@@ -543,6 +500,7 @@ input[placeholder] {
 .select-menu.active .select-btn i {
   transform: rotate(-180deg);
 }
+
 .select-menu.active .options {
   display: block;
   opacity: 0;
@@ -564,6 +522,7 @@ input[placeholder] {
     opacity: 1;
   }
 }
+
 @keyframes fadeInDown {
   from {
     transform: translate3d(0, 0, 0);
@@ -574,4 +533,94 @@ input[placeholder] {
     opacity: 0;
   }
 }
+
+/* ! MODAL => FORM USER INPUT VALIDATION: */
+form * {
+  /* All child elements of form should have it's own separate space: */
+  display: block;
+}
+
+.input-form input {
+  appearance: none;
+  width: 20rem;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  margin: 0;
+  font-size: 1rem;
+
+  height: 2rem;
+  padding: 1rem;
+}
+
+.input-form:focus {
+  border: none;
+}
+
+.input-form input:invalid {
+  border-color: rgb(107, 70, 150);
+  /* background-color: #fdd; */
+}
+
+.input-form input:focus:invalid {
+  outline: none;
+}
+
+.error {
+  width: 100%;
+  padding: 0;
+  color: rgb(234, 83, 83);
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+}
+
+.error.active {
+  padding: 0.3em;
+}
+
+
+/* ! ACTIVE CLASSES: */
+
+.error-glow {
+  box-shadow: 0 0 8px rgb(238, 112, 81);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid rgb(238, 112, 81);
+
+  color: rgb(238, 112, 81);
+}
+
+.success-glow {
+  box-shadow: 0 0 8px rgb(84, 238, 81);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid rgb(84, 238, 81);
+
+  color: rgb(84, 238, 81);
+}
+
+.is-blurred {
+  filter: blur(4px);
+}
+
+
+/* ! UNORGANIZED CODE: */
+
+.form-message,
+.modal-body > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 5px;
+  /* color: rgb(238, 112, 81); */
+  font-weight: 700;
+}
+
+
+
+
+
+
+
 
