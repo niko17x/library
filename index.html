@@ -99,25 +99,29 @@
                 </div>
                 <div class="modal-body">
                     <!-- <div class="form-message">testing</div> -->
-                    <form action="#" name="form" id="add-book-form">
+                    <form action="#" name="form" id="add-book-form" novalidate>
                         <!-- Input form blocks where user types: -->
                         <div class="title input-form">
                             <label for="title"></label>
-                            <input type="text" name="title" id="modal-title" placeholder="Title">
+                            <input type="text" name="title" id="modal-title" placeholder="Title" required minlength="5">
+                            <span class="error-title-msg error"></span>
                         </div>
                         <div class="author input-form">
                             <label for="author"></label>
-                            <input type="text" name="author" id="modal-author" placeholder="Author" maxlength="25">
+                            <input type="text" name="author" id="modal-author" placeholder="Author" required maxlength="25">
+                            <span class="error-author-msg error"></span>
                         </div>
                         <div class="pages input-form">
                             <label for="pages"></label>
                             <input type="number" name="pages" id="modal-pages" placeholder="Pages">
+                            <span class="error-pages-msg error"></span>
                         </div>
                         <!-- Modal Genre selector: -->
                         <div class="select-menu input-form">
                           <div class="select-btn">
                             <span class="sBtn-text">Select your genre</span>
                             <i class="bx bx-chevron-down"></i>
+                            <span class="error-genre-msg"></span>
                           </div>
                           <ul class="options">
                             <li class="option">
