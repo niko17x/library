@@ -1,4 +1,4 @@
-// TODO: TOGGLE READ/UNREAD => ADD TO 'MYLIBRARY' OBJECT AND USE THE DATA TO 'FILTER' LATER.
+// TODO: TOGGLE READ/UNREAD => ADD TO 'MYLIBRARY' OBJECT AND USE THE DATA TO 'FILTER' LATER. /// Add 'read' toggle to the modal and return data to the myLibrary object array.
 
 // LOCAL STORAGE:
 
@@ -37,8 +37,6 @@ const modalAuthor = document.querySelector("#modal-author");
 const spanTitleMsg = document.querySelector(".error-title-msg");
 const spanAuthorMsg = document.querySelector(".error-author-msg");
 
-// ! START TESTING:
-
 function saveAndRender() {
   save();
   render();
@@ -61,6 +59,7 @@ function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
     author: bookAuthor,
     pages: bookPages,
     genre: bookGenre,
+    read: false, // Indicates book has been read/unread.
   };
 }
 
@@ -183,7 +182,12 @@ function renderBookCards() {
 
     const label = document.createElement("label");
     const input = document.createElement("input");
-    const span1 = document.createElement("span");
+    input.id = entry.id;
+
+    // input.setAttribute("checked", false);
+
+    const spanRead = document.createElement("span");
+    spanRead.id = entry.id; // Create unique id.
 
     divBooks.classList.add("books");
     bookLibrary.appendChild(divBooks);
@@ -226,10 +230,17 @@ function renderBookCards() {
     divBooks.appendChild(divBookFooter);
 
     label.classList.add("switch");
+    input.classList.add("readIndicator");
     input.setAttribute("type", "checkbox");
-    span1.classList.add("slider");
-    label.appendChild(input);
-    label.appendChild(span1);
+
+    if (entry.read === false) {
+      input.checked = false;
+    } else {
+      input.checked = true;
+    }
+
+    spanRead.classList.add("slider");
+    label.append(input, spanRead);
     divBookFooter.appendChild(label);
   });
 }
@@ -253,6 +264,18 @@ function clearElement(element) {
     element.removeChild(element.firstChild);
   }
 }
+
+// Dealing with book card toggle (read / unread):
+
+document.querySelector(".book-library").addEventListener("click", (e) => {
+  if (e.target.tagName.toLowerCase() === "span") {
+    console.log("clicked");
+    const foo = document.querySelector(".readIndicator");
+    foo.setAttribute("checked", true);
+    foo.setAttribute("class", "WHAT THE FUCK");
+    console.log(foo);
+  }
+});
 
 // Note: 'Submit' buttons must be fired on the form element not the submit button itself:
 
@@ -334,6 +357,6 @@ function printWindow() {
   });
 }
 
-printWindow();
+// printWindow();
 
 render();
