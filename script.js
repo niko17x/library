@@ -1,4 +1,4 @@
-// TODO: WORK ON TOP FORM INPUT VALIDATION
+// TODO: TOGGLE READ/UNREAD => ADD TO 'MYLIBRARY' OBJECT AND USE THE DATA TO 'FILTER' LATER.
 
 // LOCAL STORAGE:
 
@@ -19,16 +19,23 @@ const myLibrary =
 const header = document.querySelector(".header");
 const main = document.querySelector(".main");
 const bookLibrary = document.querySelector(".book-library");
-const title = document.getElementById("title");
-const author = document.getElementById("author");
-const pages = document.getElementById("pages");
-const genre = document.getElementById("genre");
-const submitBtn = document.getElementById("btn");
 const inputForm = document.querySelectorAll("input");
 const modal = document.getElementById("myModal"); // Main button 'Add Book' modal.
 const btn = document.getElementById("myBtn"); // Opens the Modal.
 const span = document.getElementsByClassName("close")[0]; // Span element closes the Modal.
-const modalBtn = document.querySelector(".modal-submit-btn");
+const optionMenu = document.querySelector(".select-menu");
+const selectBtn = optionMenu.querySelector(".select-btn");
+const options = optionMenu.querySelectorAll(".option");
+const sBtnText = optionMenu.querySelector(".sBtn-text");
+const bookForm = document.querySelector("#add-book-form");
+const modalTitleInput = document.querySelector("#modal-title");
+const modalAuthorInput = document.querySelector("#modal-author");
+const modalPagesInput = document.querySelector("#modal-pages");
+const modalGenreInput = optionMenu.querySelector(".sBtn-text");
+const modalTitle = document.querySelector("#modal-title");
+const modalAuthor = document.querySelector("#modal-author");
+const spanTitleMsg = document.querySelector(".error-title-msg");
+const spanAuthorMsg = document.querySelector(".error-author-msg");
 
 // ! START TESTING:
 
@@ -57,61 +64,6 @@ function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
   };
 }
 
-// Logic for Modal genre drop down selection:
-
-const optionMenu = document.querySelector(".select-menu");
-const selectBtn = optionMenu.querySelector(".select-btn");
-const options = optionMenu.querySelectorAll(".option");
-const sBtnText = optionMenu.querySelector(".sBtn-text");
-
-// Clicking on 'Select your genre' opens display:
-
-selectBtn.addEventListener("click", () => {
-  optionMenu.classList.toggle("active");
-});
-
-// Clicking on 'genre selector' will add the active class:
-
-options.forEach((option) => {
-  option.addEventListener("click", () => {
-    const selectedOption = option.querySelector(".option-text").innerText;
-    sBtnText.innerText = selectedOption;
-
-    optionMenu.classList.remove("active");
-  });
-});
-
-// function that adds the new book object into the 'myLibrary' array:
-
-const modalTitleInput = document.querySelector("#modal-title");
-const modalAuthorInput = document.querySelector("#modal-author");
-const modalPagesInput = document.querySelector("#modal-pages");
-const modalGenreInput = optionMenu.querySelector(".sBtn-text");
-
-const bookForm = document.querySelector("#add-book-form");
-const spanTitleMsg = document.querySelector(".error-title-msg");
-const spanAuthorMsg = document.querySelector(".error-author-msg");
-const spanPagesMsg = document.querySelector(".error-span-msg");
-const spanGenreMsg = document.querySelector(".error-genre-msg");
-const modalTitle = document.querySelector("#modal-title");
-const modalAuthor = document.querySelector("#modal-author");
-const modalPages = document.querySelector("#modal-pages");
-const modalGenre = document.querySelector("#modal-genre");
-
-// Note: 'Submit' buttons must be fired on the form element not the submit button itself:
-
-document.querySelector("#add-book-form").addEventListener("submit", (e) => {
-  const result = CreateBook(
-    modalTitleInput.value,
-    modalAuthorInput.value,
-    modalPagesInput.value,
-    modalGenreInput.innerText
-  );
-
-  validateModalForm(result, e);
-  saveAndRender();
-});
-
 // Validates all input in modal and if data accepted, add to myLibrary array:
 
 function validateModalForm(result, e) {
@@ -123,10 +75,35 @@ function validateModalForm(result, e) {
     showError();
     e.preventDefault();
   } else {
+    showSuccessMsg();
     myLibrary.push(result);
-    bookForm.reset();
+    resetModalForm();
     e.preventDefault();
   }
+}
+
+// Show success message if book is added to 'myLibrary' array (passing validation):
+
+function showSuccessMsg() {
+  const successMsg = document.querySelector(".success-msg");
+
+  successMsg.innerText = "Book successfully added to your library!";
+
+  // successMsg.style.color = "green";
+
+  successMsg.classList.add(".success-glow");
+  setTimeout(() => {
+    successMsg.innerText = "";
+  }, "5000");
+}
+
+// Resets all span error messages:
+
+function resetModalForm() {
+  spanTitleMsg.innerText = "";
+  spanAuthorMsg.innerText = "";
+  sBtnText.innerText = "Select book genre";
+  sBtnText.style.color = "black";
 }
 
 // Display error in modal for incorrect input data:
@@ -145,26 +122,6 @@ function showError() {
     sBtnText.style.color = "red";
   }
 }
-
-// Modal title input form constraint validation:
-
-modalTitle.addEventListener("input", () => {
-  if (!modalTitle.validity.valid) {
-    showError();
-  } else {
-    spanTitleMsg.textContent = "";
-  }
-});
-
-// Modal author input form constraint validation:
-
-modalAuthor.addEventListener("input", () => {
-  if (!modalAuthor.validity.valid) {
-    showError();
-  } else {
-    spanAuthorMsg.innerText = "";
-  }
-});
 
 // DEAL WITH MODAL FUNCTION:
 
@@ -189,6 +146,8 @@ class ModalEvents {
   static closeModal() {
     window.addEventListener("click", (event) => {
       if (event.target === modal) {
+        optionMenu.classList.remove("active");
+        resetModalForm();
         ModalEvents.removeModal();
       }
     });
@@ -196,6 +155,8 @@ class ModalEvents {
 
   static closeSpanModal() {
     span.addEventListener("click", () => {
+      optionMenu.classList.remove("active");
+      resetModalForm();
       ModalEvents.removeModal();
     });
   }
@@ -264,8 +225,6 @@ function renderBookCards() {
     divBookFooter.classList.add("book-footer");
     divBooks.appendChild(divBookFooter);
 
-    // Create toggle for read/unread:
-
     label.classList.add("switch");
     input.setAttribute("type", "checkbox");
     span1.classList.add("slider");
@@ -275,29 +234,10 @@ function renderBookCards() {
   });
 }
 
-function deleteBook(element) {
-  element.parentNode.parentNode.remove();
-}
-
-function inputMessage(element) {
-  const div = document.createElement("div"); // Create new Div.
-  const modalBody = document.querySelector(".modal-body"); // Get parent element.
-  const addBookForm = document.querySelector("#add-book-form"); // Reference node.
-
-  // Empty input values:
-
-  if (element.value === "" || element.value == null) {
-    div.className = "error-glow";
-    div.innerText = `${element.id} is required.`;
-  } else {
-    div.className = "success-glow";
-    div.innerText = `${element.value} has been successfully added!`;
-  }
-  modalBody.insertBefore(div, addBookForm);
-  setTimeout(() => div.classList.remove("error-glow"), 3000); // Remove class.
-  setTimeout(() => div.classList.remove("success-glow"), 3000);
-  setTimeout(() => div.remove(), 3000); // Remove entire div element.
-}
+// ? In service?
+// function deleteBook(element) {
+//   element.parentNode.parentNode.remove();
+// }
 
 function clearInputFields() {
   inputForm.forEach((input) => {
@@ -313,6 +253,65 @@ function clearElement(element) {
     element.removeChild(element.firstChild);
   }
 }
+
+// Note: 'Submit' buttons must be fired on the form element not the submit button itself:
+
+bookForm.addEventListener("submit", (e) => {
+  const result = CreateBook(
+    modalTitleInput.value,
+    modalAuthorInput.value,
+    modalPagesInput.value,
+    modalGenreInput.innerText
+  );
+
+  validateModalForm(result, e);
+  saveAndRender();
+});
+
+// Clicking on 'Select your genre' opens display:
+
+selectBtn.addEventListener("click", () => {
+  optionMenu.classList.toggle("active");
+});
+
+// Clicking on 'genre selector' will add the active class:
+
+options.forEach((option) => {
+  option.addEventListener("click", () => {
+    const selectedOption = option.querySelector(".option-text").innerText;
+    sBtnText.innerText = selectedOption;
+
+    optionMenu.classList.remove("active");
+  });
+});
+
+// Revert genre span text back to black if not default text:
+
+selectBtn.addEventListener("click", (e) => {
+  if (e.target.textContent.includes("Select")) {
+    sBtnText.style.color = "black";
+  }
+});
+
+// Modal title input form constraint validation:
+
+modalTitle.addEventListener("input", () => {
+  if (!modalTitle.validity.valid) {
+    showError();
+  } else {
+    spanTitleMsg.textContent = "";
+  }
+});
+
+// Modal author input form constraint validation:
+
+modalAuthor.addEventListener("input", () => {
+  if (!modalAuthor.validity.valid) {
+    showError();
+  } else {
+    spanAuthorMsg.innerText = "";
+  }
+});
 
 // Click on the span target and remove the parent, parent element of that span.
 
@@ -335,6 +334,6 @@ function printWindow() {
   });
 }
 
-// printWindow();
+printWindow();
 
 render();
