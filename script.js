@@ -88,7 +88,7 @@ const modalAuthorInput = document.querySelector("#modal-author");
 const modalPagesInput = document.querySelector("#modal-pages");
 const modalGenreInput = optionMenu.querySelector(".sBtn-text");
 
-const bookForm = document.querySelector(".add-book-form");
+const bookForm = document.querySelector("#add-book-form");
 const spanTitleMsg = document.querySelector(".error-title-msg");
 const spanAuthorMsg = document.querySelector(".error-author-msg");
 const spanPagesMsg = document.querySelector(".error-span-msg");
@@ -97,15 +97,6 @@ const modalTitle = document.querySelector("#modal-title");
 const modalAuthor = document.querySelector("#modal-author");
 const modalPages = document.querySelector("#modal-pages");
 const modalGenre = document.querySelector("#modal-genre");
-
-modalTitle.addEventListener("input", () => {
-  if (modalTitle.validity.valid) {
-    spanTitleMsg.textContent = "";
-    spanTitleMsg.className = "error";
-  } else {
-    showError();
-  }
-});
 
 // Note: 'Submit' buttons must be fired on the form element not the submit button itself:
 
@@ -117,46 +108,26 @@ document.querySelector("#add-book-form").addEventListener("submit", (e) => {
     modalGenreInput.innerText
   );
 
-  // if (!modalTitle.validity.valid) {
-  //   showError();
-  //   e.preventDefault();
-  // } else if (!modalAuthor.validity.valid) {
-  //   showError();
-  //   e.preventDefault();
-  // } else if (sBtnText.innerText.includes("Select")) {
-  //   sBtnText.className = "error";
-  //   e.preventDefault();
-  // } else {
-  //   myLibrary.push(result);
-  // }
-
-  if (
-    modalTitle.validity.valid &&
-    modalAuthor.validity.valid &&
-    !sBtnText.innerText.includes("Select")
-  ) {
-    myLibrary.push(result);
-  } else {
-    showError();
-    e.preventDefault();
-  }
+  validateModalForm(result, e);
   saveAndRender();
 });
 
-// function modalFormValidation(event, result) {
-//   if (!modalTitle.validity.valid) {
-//     showError();
-//   }
-//   if (!modalAuthor.validity.valid) {
-//     showError();
-//   }
-//   if (sBtnText.innerText.includes("Select")) {
-//     sBtnText.className = "error";
-//   } else {
-//     myLibrary.push(result);
-//   }
-//   event.preventDefault();
-// }
+// Validates all input in modal and if data accepted, add to myLibrary array:
+
+function validateModalForm(result, e) {
+  if (
+    !modalTitle.validity.valid ||
+    !modalAuthor.validity.valid ||
+    sBtnText.innerText.includes("Select")
+  ) {
+    showError();
+    e.preventDefault();
+  } else {
+    myLibrary.push(result);
+    bookForm.reset();
+    e.preventDefault();
+  }
+}
 
 // Display error in modal for incorrect input data:
 
@@ -170,14 +141,28 @@ function showError() {
   if (modalTitle.validity.tooLong) {
     spanTitleMsg.textContent = "Please shorten the book title.";
   }
+  if (sBtnText.textContent.includes("genre")) {
+    sBtnText.style.color = "red";
+  }
 }
 
-modalAuthor.addEventListener("input", (e) => {
+// Modal title input form constraint validation:
+
+modalTitle.addEventListener("input", () => {
+  if (!modalTitle.validity.valid) {
+    showError();
+  } else {
+    spanTitleMsg.textContent = "";
+  }
+});
+
+// Modal author input form constraint validation:
+
+modalAuthor.addEventListener("input", () => {
   if (!modalAuthor.validity.valid) {
     showError();
   } else {
     spanAuthorMsg.innerText = "";
-    return true;
   }
 });
 
