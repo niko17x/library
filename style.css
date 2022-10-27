@@ -8,14 +8,12 @@
   --red-orange-color: #F64C71;
   --solid-black-color: #090B0E;
   --electric-blue-color: #67FDF0;
-
-  /* NEW: */
   --blackGray: #202833;
   --green: #3AAFA9;
   --dark-green: #2B7A77;
   --light-green: #DFF2F1;
   --white: rgb(255, 255, 255);
-
+  --red-error: rgba(255, 117, 117, 0.184);
 }
 
 /* STYLING HEADER SECTION */
@@ -24,7 +22,16 @@
   grid-template-columns: 1fr 20fr 1fr;
   border-bottom: 3px solid rgb(162, 162, 162);
   padding: 8px 0;
-  background-color: var(--green);
+  /* background: url("/img/book-img.jpeg"); */
+  background-image:
+  linear-gradient(to right, rgba(245, 246, 252, 0.65), rgba(0, 0, 0, 0.526)),
+  url("/img/book-img.jpeg");
+
+  /* background: linear-gradient(url("/img/book-img.jpeg"), var(--white)); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-color: var(--green); */
   box-shadow: 0 15px 6px -6px rgb(100, 100, 100), 0 -15px 6px -6px rgb(100, 100, 100);
 
 }
@@ -33,7 +40,8 @@
 }
 .header-title > h1 {
   color: var(--white);
-  font-size: 7.5rem;
+  font-family: 'Arizonia';
+  font-size: 10rem;
   text-align: center;
   margin: 0;
 }
@@ -78,7 +86,7 @@
 .user-greeting > p > span {font-size: 1.5rem;}
 
 
-/* MAIN BUTTONS STYLING */
+/* 'ADD BOOK' BUTTON STYLING */
 #myBtn {
   position: absolute;
   left: 50%;
@@ -96,7 +104,8 @@
   border-bottom-left-radius: 10px;
   transition: all 1s;
   border: none;
-  top: 310px;
+  bottom: 57%;
+  color: var(--blackGray);
 }
 
 #myBtn:after,
@@ -112,15 +121,15 @@
 #myBtn:after {
   top: -1px;
   left: -1px;
-  border-top: 5px solid var(--lightGreen-color);
-  border-left: 5px solid var(--lightGreen-color);
+  border-top: 5px solid var(--electric-blue-color);
+  border-left: 5px solid var(--electric-blue-color);
 }
 
 #myBtn:before {
   bottom: -1px;
   right: -1px;
-  border-bottom: 5px solid var(--lightGreen-color);
-  border-right: 5px solid var(--lightGreen-color);
+  border-bottom: 5px solid var(--electric-blue-color);
+  border-right: 5px solid var(--electric-blue-color);
 }
 
 #myBtn:hover {
@@ -139,7 +148,6 @@
 
 /* MAIN BODY SECTION STYLING */
 .main {
-  background-color: var(--green);
   display: grid;
   margin: 200px 0 0 0;
   width: 100%;
@@ -147,6 +155,7 @@
   align-items: center;
   padding: 3rem;
   box-shadow: 0 15px 6px -6px rgb(100, 100, 100), 0 -15px 6px -6px rgb(100, 100, 100);
+  background-image: url("/img/paper-bg.jpeg");
 }
 
 .filter {
@@ -163,14 +172,14 @@
 .book-library {
   display: grid;
   gap: 3rem;
-  grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+  /* grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) ); */
+  grid-template-columns: repeat(3, 1fr);
 }
 .books {
-  border: 5px solid var(--dark-green);
+  border: 1px solid var(--blackGray);
   border-radius: 10px;
   padding: 1rem;
   box-shadow: 0 11px 6px -6px rgb(100, 100, 100), 0 -11px 6px -6px rgb(100, 100, 100);
-  /* background-color: var(--light-green); */
   background-color: var(--white);
 }
 .title {
@@ -179,7 +188,8 @@
   text-overflow: ellipsis;
 }
 .book-header {
-  border-bottom: 2px solid var(--dark-green);
+  /* border-bottom: 2px solid var(--dark-green); */
+  border-bottom: 3px solid var(--electric-blue-color);
   display: grid;
   grid-template-rows: repeat(2, min-content);
 
@@ -204,62 +214,55 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.book-footer {
-  text-align: center;
-}
-.book-footer > button{
-  cursor: pointer;
-}
-/* STYLING TOGGLE SWITCH FOR READ/UNREAD */
-/* https://www.w3schools.com/howto/howto_css_switch.asp */
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-/* Hide default HTML checkbox */
-.switch input {
-opacity: 0;
-width: 0;
-height: 0;
-}
-/* The slider */
-.slider {
-position: absolute;
-cursor: pointer;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background-color: #ccc;
--webkit-transition: .4s;
-transition: .4s;
-}
-.slider:before {
-position: absolute;
-content: "";
-height: 26px;
-width: 26px;
-left: 4px;
-bottom: 4px;
-background-color: white;
--webkit-transition: .4s;
-transition: .4s;
-}
-input:checked + .slider {
-background-color: #2196F3;
-}
-input:focus + .slider {
-box-shadow: 0 0 1px #2196F3;
-}
-input:checked + .slider:before {
--webkit-transform: translateX(26px);
--ms-transform: translateX(26px);
-transform: translateX(26px);
+
+/* !STYLING TOGGLE SWITCH FOR READ/UNREAD */
+
+.read-toggle input[type=checkbox]{
+  height: 0;
+  width: 0;
+  visibility: hidden;
 }
 
+.read-toggle label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 80px;
+  height: 40px;
+  left: 33%;
+  background: grey;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.read-toggle label:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+.read-toggle input:checked + label {
+  background: #bada55;
+}
+
+.read-toggle input:checked + label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+.read-toggle label:active:after {
+  width: 130px;
+}
+
+.modal-body .read-toggle label {
+  left: 0%;
+}
 
 
 
@@ -319,6 +322,7 @@ transform: translateX(26px);
   background-color: #fefefe;
   margin-bottom: 200px;
   box-shadow: 0 15px 6px -6px rgb(100, 100, 100), 0 -15px 6px -6px rgb(100, 100, 100);
+  border-radius: 10px;
 }
 
 /* Add Animation for Modal pop up when clicked: */
@@ -335,10 +339,18 @@ transform: translateX(26px);
 /* The Close Button */
 .close,
 .book-card-close {
+  position: absolute;
   color: var(--blackGray-color);
-  float: right;
   font-size: 38px;
   font-weight: bold;
+  transition: scale 300ms;
+}
+
+.close {
+  position: fixed;
+  /* Note: Use percentages when you want to keep an element fixed even through screen size changes: */
+  right: 2%;
+  bottom: 93%;
 }
 
 .close:hover,
@@ -348,19 +360,29 @@ transform: translateX(26px);
   color: rgb(255, 146, 145);
   text-decoration: none;
   cursor: pointer;
+  scale: 1.7;
 }
 
 .modal-header {
   padding: 2px 16px;
-  background-color: var(--dark-green);
-  color: var(--blackGray-color);
+  background-image: url(/img/book-read.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: 0 10px 6px -6px var(--blackGray);
+  border-radius: 10px;
+}
+
+.modal-header h2 {
+  font-family: 'Arizonia';
+  font-size: 4rem;
+  margin: 0;
 }
 
 h2 {
   font-size: 2.7rem;
   text-align: center;
-  color: white;
+  color: var(--blackGray)
 }
   
 .modal-body {
@@ -393,11 +415,12 @@ option {
 .modal-footer {
   display: grid;
   padding: 12px 16px;
-  background-color: var(--dark-green);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.946), rgba(0, 0, 0, 0.137));
   color: white;
+  border-radius: 10px;
 }
 
-/* Design submit button for modal: */
+/* ! Design submit button for modal: */
 .modal-submit-btn {
   align-items: center;
   background-color: #FFFFFF;
@@ -445,8 +468,6 @@ option {
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
 }
-
-
 
 /* ! MODAL => GENRE DROP DOWN SELECTION: */
 .select-menu {
@@ -576,12 +597,16 @@ form * {
   border: none;
 }
 
-.input-form input:invalid {
-  border-color: rgb(107, 70, 150);
-  /* background-color: #fdd; */
-}
+/* .input-form input:invalid {
+  border-color: red;
+} */
 
-.input-form input:focus:invalid {
+/* .input-form input:valid {
+  border-color: var(--lightGreen-color);
+} */
+
+.input-form input:focus:invalid,
+.input-form input:focus:valid {
   outline: none;
 }
 
@@ -591,10 +616,19 @@ form * {
   color: rgb(234, 83, 83);
   border-radius: 0 0 5px 5px;
   text-align: center;
+  background-color: var(--red-error);
 }
 
 .error.active {
   padding: 0.3em;
+}
+
+/* Modal success msg after successfully adding book to library: */
+.success-msg {
+  color: var(--lightGreen-color);
+  font-size: 1.7rem;
+  text-align: center;
+  margin: 1rem;
 }
 
 
@@ -614,7 +648,6 @@ form * {
   padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px;
   border: 1px solid rgb(84, 238, 81);
-
   color: rgb(84, 238, 81);
 }
 
