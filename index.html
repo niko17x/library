@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arizonia&family=Qwitcher+Grypen&family=Raleway&display=swap" rel="stylesheet">
+    
     <link href="https://fonts.googleapis.com/css2?family=Finlandica:wght@400;600&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
@@ -25,7 +26,7 @@
                 </div>
                 <div class="header-right">
                     <div class="header-title">
-                        <h1>Your Library</h1>
+                        <h1>Your Library.</h1>
                     </div>
                     <div class="user-greeting">
                         <img src="/img/face-man-profile.svg" alt="profile image">
@@ -40,10 +41,9 @@
             <button id="myBtn">Add Book ➕</button>
 
             <div class="main">
-                <div class="filter">
+                <!-- <div class="filter">
                     <h4>Filter By:</h4>
                     <select name="author" id="filter-author">
-                        <!-- Adding drop down selections for user. -->
                         <option value="value" selected>Author</option>
                         <option value="jk-rowling">J.K. Rowling</option>
                     </select>
@@ -59,33 +59,9 @@
                         <option value="horror">Horror</option>
                         <option value="action">Action</option>
                     </select>
-                </div>
-
+                </div> -->
+                
                 <div class="book-library">
-                    <!-- <div class="books">
-                        <div class="book-header">
-                            <span class="close">&times;</span>
-                            <h2 class="title">Book 1</h2>
-                        </div>
-                        <div class="book-body">
-                            <p id="author">
-                                Author: Author
-                            </p>
-                            <p id="no-of-pages">
-                                No. of Pages: 100
-                            </p>
-                            <p id="genre">
-                                Genre: Horror
-                            </p>
-                            <p id="notes">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus dolorum mollitia sapiente amet blanditiis ea temporibus. Quidem enim error similique minus quisquam quo asperiores! Expedita repudiandae tenetur temporibus laudantium natus?
-                            </p>
-                        </div>
-                        <div class="book-footer">
-                            <button>Edit</button>
-                            <button>Not Read</button>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -94,8 +70,10 @@
         <div id="myModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <h2>Enter Book Details</h2>
+                    <h2>
+                      Enter Book Details
+                      <span class="close">&times;</span>
+                    </h2>
                 </div>
                 <div class="modal-body">
                     <!-- <div class="form-message">testing</div> -->
@@ -103,25 +81,24 @@
                         <!-- Input form blocks where user types: -->
                         <div class="title input-form">
                             <label for="title"></label>
-                            <input type="text" name="title" id="modal-title" placeholder="Title" required minlength="5">
+                            <input type="text" name="title" id="modal-title" placeholder="Title" required maxlength="20">
                             <span class="error-title-msg error"></span>
                         </div>
                         <div class="author input-form">
                             <label for="author"></label>
-                            <input type="text" name="author" id="modal-author" placeholder="Author" required maxlength="25">
+                            <input type="text" name="author" id="modal-author" placeholder="Author" required>
                             <span class="error-author-msg error"></span>
                         </div>
                         <div class="pages input-form">
                             <label for="pages"></label>
-                            <input type="number" name="pages" id="modal-pages" placeholder="Pages">
+                            <input type="number" name="pages" id="modal-pages" placeholder="No. of Pages" aria-placeholder="1000" minlength="1" maxlength="10000">
                             <span class="error-pages-msg error"></span>
                         </div>
                         <!-- Modal Genre selector: -->
                         <div class="select-menu input-form">
                           <div class="select-btn">
-                            <span class="sBtn-text">Select your genre</span>
+                            <span class="sBtn-text">Select book genre</span>
                             <i class="bx bx-chevron-down"></i>
-                            <span class="error-genre-msg"></span>
                           </div>
                           <ul class="options">
                             <li class="option">
@@ -144,6 +121,13 @@
                         </div>
                         <button class="modal-submit-btn" id="add-book-form">Submit</button>
                       </form>
+                      <!-- Toggle for read/unread: -->
+                      <div class="read-toggle">
+                        <input type="checkbox" class="switch modal-switch">
+                        <label for="switch" class="label-switch">Toggle</label>
+                      </div>
+                      <!-- Modal correct input success message displayed here: -->
+                      <span class="success-msg"></span>
                 </div>
                 <div class="modal-footer">
                 </div>
