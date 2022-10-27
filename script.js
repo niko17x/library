@@ -32,10 +32,9 @@ const modalTitleInput = document.querySelector("#modal-title");
 const modalAuthorInput = document.querySelector("#modal-author");
 const modalPagesInput = document.querySelector("#modal-pages");
 const modalGenreInput = optionMenu.querySelector(".sBtn-text");
-const modalTitle = document.querySelector("#modal-title");
-const modalAuthor = document.querySelector("#modal-author");
 const spanTitleMsg = document.querySelector(".error-title-msg");
 const spanAuthorMsg = document.querySelector(".error-author-msg");
+const modalReadSwitch = document.querySelector(".modal-switch");
 
 function saveAndRender() {
   save();
@@ -52,14 +51,14 @@ function save() {
 
 // Array to store book objects:
 
-function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
+function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre, bookRead) {
   return {
     id: Date.now().toString(),
     title: bookTitle,
     author: bookAuthor,
     pages: bookPages,
     genre: bookGenre,
-    read: false, // Indicates book has been read/unread.
+    read: bookRead,
   };
 }
 
@@ -67,15 +66,15 @@ function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre) {
 
 function validateModalForm(result, e) {
   if (
-    !modalTitle.validity.valid ||
-    !modalAuthor.validity.valid ||
+    !modalTitleInput.validity.valid ||
+    !modalAuthorInput.validity.valid ||
     sBtnText.innerText.includes("Select")
   ) {
     showError();
     e.preventDefault();
   } else {
-    showSuccessMsg();
     myLibrary.push(result);
+    showSuccessMsg();
     resetModalForm();
     e.preventDefault();
   }
@@ -96,25 +95,29 @@ function showSuccessMsg() {
   }, "5000");
 }
 
-// Resets all span error messages:
+// Resets all modal input values and span error messages:
 
 function resetModalForm() {
+  modalTitleInput.value = null;
+  modalAuthorInput.value = null;
+  modalPagesInput.value = null;
   spanTitleMsg.innerText = "";
   spanAuthorMsg.innerText = "";
   sBtnText.innerText = "Select book genre";
   sBtnText.style.color = "black";
+  modalReadSwitch.removeAttribute("checked"); // Resetting 'checked' attribute.
 }
 
 // Display error in modal for incorrect input data:
 
 function showError() {
-  if (modalTitle.validity.valueMissing) {
+  if (modalTitleInput.validity.valueMissing) {
     spanTitleMsg.textContent = "Please enter the book title.";
   }
-  if (modalAuthor.validity.valueMissing) {
+  if (modalAuthorInput.validity.valueMissing) {
     spanAuthorMsg.textContent = "Please enter the authors full name.";
   }
-  if (modalTitle.validity.tooLong) {
+  if (modalTitleInput.validity.tooLong) {
     spanTitleMsg.textContent = "Please shorten the book title.";
   }
   if (sBtnText.textContent.includes("genre")) {
@@ -182,9 +185,6 @@ function renderBookCards() {
 
     const label = document.createElement("label");
     const input = document.createElement("input");
-    input.id = entry.id;
-
-    // input.setAttribute("checked", false);
 
     const spanRead = document.createElement("span");
     spanRead.id = entry.id; // Create unique id.
@@ -229,26 +229,29 @@ function renderBookCards() {
     divBookFooter.classList.add("book-footer");
     divBooks.appendChild(divBookFooter);
 
-    label.classList.add("switch");
-    input.classList.add("readIndicator");
-    input.setAttribute("type", "checkbox");
+    const divReadToggle = document.createElement("div");
+    divReadToggle.classList.add("read-toggle");
 
-    if (entry.read === false) {
-      input.checked = false;
-    } else {
+    input.type = "checkbox";
+    input.id = entry.id;
+    input.className = "switch";
+
+    label.setAttribute("for", input.id);
+    label.id = entry.id;
+    label.classList.add("label-book-toggle");
+    label.innerText = "Toggle";
+
+    // Toggle read/unread based on 'read' property in myLibrary array:
+
+    if (entry.read === true) {
       input.checked = true;
     }
 
+    divReadToggle.append(input, label);
     spanRead.classList.add("slider");
-    label.append(input, spanRead);
-    divBookFooter.appendChild(label);
+    divBookFooter.append(divReadToggle);
   });
 }
-
-// ? In service?
-// function deleteBook(element) {
-//   element.parentNode.parentNode.remove();
-// }
 
 function clearInputFields() {
   inputForm.forEach((input) => {
@@ -265,16 +268,29 @@ function clearElement(element) {
   }
 }
 
-// Dealing with book card toggle (read / unread):
+// Event to toggle read/unread in each book item:
 
 document.querySelector(".book-library").addEventListener("click", (e) => {
-  if (e.target.tagName.toLowerCase() === "span") {
-    console.log("clicked");
-    const foo = document.querySelector(".readIndicator");
-    foo.setAttribute("checked", true);
-    foo.setAttribute("class", "WHAT THE FUCK");
-    console.log(foo);
+  const selectedId = myLibrary.find((item) => item.id === e.target.id);
+
+  if (e.target.tagName.toLowerCase() === "label") {
+    if (selectedId.id === e.target.id) {
+      // click event toggles read/unread corresponds to the 'read' property in myLibrary array:
+
+      if (selectedId.read === true) {
+        selectedId.read = false;
+      } else {
+        selectedId.read = true;
+      }
+    }
   }
+  render();
+});
+
+// Modal input:checkbox read/unread:
+
+document.querySelector(".label-switch").addEventListener("click", () => {
+  document.querySelector(".modal-switch").toggleAttribute("checked");
 });
 
 // Note: 'Submit' buttons must be fired on the form element not the submit button itself:
@@ -284,7 +300,8 @@ bookForm.addEventListener("submit", (e) => {
     modalTitleInput.value,
     modalAuthorInput.value,
     modalPagesInput.value,
-    modalGenreInput.innerText
+    modalGenreInput.innerText,
+    modalReadSwitch.checked
   );
 
   validateModalForm(result, e);
@@ -318,8 +335,8 @@ selectBtn.addEventListener("click", (e) => {
 
 // Modal title input form constraint validation:
 
-modalTitle.addEventListener("input", () => {
-  if (!modalTitle.validity.valid) {
+modalTitleInput.addEventListener("input", () => {
+  if (!modalTitleInput.validity.valid) {
     showError();
   } else {
     spanTitleMsg.textContent = "";
@@ -328,8 +345,8 @@ modalTitle.addEventListener("input", () => {
 
 // Modal author input form constraint validation:
 
-modalAuthor.addEventListener("input", () => {
-  if (!modalAuthor.validity.valid) {
+modalAuthorInput.addEventListener("input", () => {
+  if (!modalAuthorInput.validity.valid) {
     showError();
   } else {
     spanAuthorMsg.innerText = "";
@@ -357,6 +374,6 @@ function printWindow() {
   });
 }
 
-// printWindow();
+printWindow();
 
 render();
