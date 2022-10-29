@@ -1,4 +1,4 @@
-// TODO: TOGGLE READ/UNREAD => ADD TO 'MYLIBRARY' OBJECT AND USE THE DATA TO 'FILTER' LATER. /// Add 'read' toggle to the modal and return data to the myLibrary object array.
+// TODO: CLICKING ON A BOOK CARD SHOULD OPEN A MODAL TO EDIT DETAILS => ADD AN EDIT OPTION TO EACH INDIVIDUAL BOOK ITEM /// WORK ON A FILTER OPTION FOR: READ/UNREAD, GENRE TYPE, SHORT/LONG PAGE BOOKS, ETC...
 
 // LOCAL STORAGE:
 
@@ -6,15 +6,6 @@ const LOCAL_STORAGE_LIST_KEY = "books.myLibrary";
 
 const myLibrary =
   JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
-
-// DOM SELECTORS:
-
-// Unused variables:
-// const notes = document.getElementById("notes");
-// const myBtn = document.getElementById("myBtn");
-
-// const formMessage = document.querySelector(".form-message");
-// const readToggle = document.querySelector(".read-toggle");
 
 const header = document.querySelector(".header");
 const main = document.querySelector(".main");
@@ -68,7 +59,7 @@ function validateModalForm(result, e) {
   if (
     !modalTitleInput.validity.valid ||
     !modalAuthorInput.validity.valid ||
-    sBtnText.innerText.includes("Select")
+    modalGenreInput.innerText.includes("Select")
   ) {
     showError();
     e.preventDefault();
@@ -103,8 +94,8 @@ function resetModalForm() {
   modalPagesInput.value = null;
   spanTitleMsg.innerText = "";
   spanAuthorMsg.innerText = "";
-  sBtnText.innerText = "Select book genre";
-  sBtnText.style.color = "black";
+  modalGenreInput.innerText = "Select book genre";
+  modalGenreInput.style.color = "black";
   modalReadSwitch.removeAttribute("checked"); // Resetting 'checked' attribute.
 }
 
@@ -120,8 +111,8 @@ function showError() {
   if (modalTitleInput.validity.tooLong) {
     spanTitleMsg.textContent = "Please shorten the book title.";
   }
-  if (sBtnText.textContent.includes("genre")) {
-    sBtnText.style.color = "red";
+  if (modalGenreInput.textContent.includes("genre")) {
+    modalGenreInput.style.color = "red";
   }
 }
 
@@ -197,13 +188,19 @@ function renderBookCards() {
 
     // Book Title:
 
+    // !:
+
+    const spanEdit = document.createElement("span");
+    spanEdit.innerHTML = "&#9998;";
+    spanEdit.classList.add("book-card-edit");
+
     spanClose.setAttribute("id", entry.title);
     spanClose.id = entry.id;
-    spanClose.innerHTML = "&times;";
+    spanClose.innerHTML = "&#x2716;";
     spanClose.classList.add("book-card-close");
     h2Title.classList.add("title");
     h2Title.textContent = entry.title;
-    divBookHeader.append(spanClose, h2Title);
+    divBookHeader.append(h2Title, spanEdit, spanClose);
 
     divBookBody.classList.add("book-body");
     divBooks.appendChild(divBookBody);
@@ -319,7 +316,7 @@ selectBtn.addEventListener("click", () => {
 options.forEach((option) => {
   option.addEventListener("click", () => {
     const selectedOption = option.querySelector(".option-text").innerText;
-    sBtnText.innerText = selectedOption;
+    modalGenreInput.innerText = selectedOption;
 
     optionMenu.classList.remove("active");
   });
@@ -329,7 +326,7 @@ options.forEach((option) => {
 
 selectBtn.addEventListener("click", (e) => {
   if (e.target.textContent.includes("Select")) {
-    sBtnText.style.color = "black";
+    modalGenreInput.style.color = "black";
   }
 });
 
