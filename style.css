@@ -181,6 +181,8 @@
   padding: 1rem;
   box-shadow: 0 11px 6px -6px rgb(100, 100, 100), 0 -11px 6px -6px rgb(100, 100, 100);
   background-color: var(--white);
+
+  position: relative;
 }
 .title {
   white-space: nowrap;
@@ -191,19 +193,34 @@
   /* border-bottom: 2px solid var(--dark-green); */
   border-bottom: 3px solid var(--electric-blue-color);
   display: grid;
-  grid-template-rows: repeat(2, min-content);
+  margin: 0;
+  padding: 0;
+  grid-template-columns: 8fr 1fr 1fr;
+
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.book-header > .close,
-.book-card-close {
-  justify-self: flex-end;
-  margin: -15px -5px 0 0;
+
+/* ???? GET THE POSITION OF THE TITLE, EDIT AND CLOSE BUTTON IN ORDER. */
+
+/* .book-header > .close, */
+.book-card-close,
+.book-card-edit {
+  font-size: 1.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  /* Note: to use relative positioning 'off' a parent element, the parent element have a relative/absolute positioning as well. */
+  position: relative;
+  place-self: start;
+  /* margin-left: 210px; */
+  /* bottom: 19%; */
 }
+
 .book-header > h2 {
-  margin: 0;
+  margin: 1.5rem 0 0 0;
+  /* padding: 0; */
   color: var(--blackGray);
 }
 .book-body > p {
@@ -228,11 +245,12 @@
   text-indent: -9999px;
   width: 80px;
   height: 40px;
-  left: 33%;
   background: grey;
   display: block;
   border-radius: 100px;
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .read-toggle label:after {
@@ -261,7 +279,11 @@
 }
 
 .modal-body .read-toggle label {
-  left: 0%;
+  padding: 1rem;
+  position: absolute;
+  bottom: 27%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 
@@ -337,12 +359,17 @@
 }
 
 /* The Close Button */
-.close,
-.book-card-close {
+.close {
   position: absolute;
   color: var(--blackGray-color);
   font-size: 38px;
   font-weight: bold;
+  transition: scale 300ms;
+}
+
+.book-card-close {
+  /* position: absolute; */
+  color: var(--blackGray-color);
   transition: scale 300ms;
 }
 
@@ -356,7 +383,9 @@
 .close:hover,
 .close:focus,
 .book-card-close:hover,
-.book-card-close:focus {
+.book-card-close:focus,
+.book-card-edit:hover,
+.book-card-edit:focus {
   color: rgb(255, 146, 145);
   text-decoration: none;
   cursor: pointer;
