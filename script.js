@@ -17,7 +17,6 @@ const span = document.getElementsByClassName("close")[0]; // Span element closes
 const optionMenu = document.querySelector(".select-menu");
 const selectBtn = optionMenu.querySelector(".select-btn");
 const options = optionMenu.querySelectorAll(".option");
-const sBtnText = optionMenu.querySelector(".sBtn-text");
 const bookForm = document.querySelector("#add-book-form");
 const modalTitleInput = document.querySelector("#modal-title");
 const modalAuthorInput = document.querySelector("#modal-author");
@@ -188,11 +187,10 @@ function renderBookCards() {
 
     // Book Title:
 
-    // !:
-
     const spanEdit = document.createElement("span");
     spanEdit.innerHTML = "&#9998;";
     spanEdit.classList.add("book-card-edit");
+    spanEdit.id = entry.id;
 
     spanClose.setAttribute("id", entry.title);
     spanClose.id = entry.id;
@@ -256,6 +254,32 @@ function clearInputFields() {
   });
   ModalEvents.closeModal();
 }
+
+// ! TEST START:
+
+// Todo: User clicks on edit on specific book item => Opens modal with current input values already in place => editing the input and submitting will result in the 'myLibrary' book object to be newly updated.
+
+const bookCardEdit = document.querySelector(".book-card-edit");
+bookLibrary.addEventListener("click", (e) => {
+  const selectedBook = myLibrary.find((item) => item.id === e.target.id);
+  if (e.target.classList.contains("book-card-edit")) {
+    if (e.target.id === selectedBook.id) {
+      modal.style.display = "block";
+      modalTitleInput.value = selectedBook.title;
+      modalAuthorInput.value = selectedBook.author;
+      modalPagesInput.value = selectedBook.pages;
+      modalGenreInput.innerText = selectedBook.genre;
+
+      if (selectedBook.read) {
+        document.querySelector(".modal-switch").checked = true;
+      } else {
+        document.querySelector(".modal-switch").checked = false;
+      }
+    }
+  }
+});
+
+// ! TEST END;
 
 // Recursively clear out the child elements from the given element:
 
