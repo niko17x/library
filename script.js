@@ -27,6 +27,7 @@ const modalGenreInput = optionMenu.querySelector(".sBtn-text");
 const spanTitleMsg = document.querySelector(".error-title-msg");
 const spanAuthorMsg = document.querySelector(".error-author-msg");
 const modalReadSwitch = document.querySelector(".modal-switch");
+const successMsg = document.querySelector(".success-msg");
 
 function saveAndRender() {
   save();
@@ -55,7 +56,6 @@ function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre, bookRead) {
   };
 }
 
-// Todo: Read/unread toggle is not responding in the correct way => fix!
 // Validates all input in modal and if data accepted, add to myLibrary array:
 
 function validateModalForm(result, e) {
@@ -66,24 +66,24 @@ function validateModalForm(result, e) {
     modalGenreInput.innerText.includes("Select")
   ) {
     showError();
-  } else if (selectedBookItem === "") {
+  } else if (selectedBookItem === "" || null) {
     myLibrary.push(result);
-    showSuccessMsg("submit");
+    showMsg("submit");
+    resetModalForm();
   } else if (selectedBookItem !== "") {
     updateBook();
   }
-  resetModalForm();
 }
 
 // Show success message if book is added to 'myLibrary' array (passing validation):
 
-function showSuccessMsg(message) {
-  const successMsg = document.querySelector(".success-msg");
-
+function showMsg(message) {
   if (message === "submit") {
     successMsg.innerText = "Book successfully added to your library!";
   } else if (message === "edit") {
     successMsg.innerText = "Changes have been saved!";
+  } else if (message === "noChange") {
+    successMsg.innerText = "No changes have been made.";
   }
 
   successMsg.classList.add(".success-glow");
@@ -103,6 +103,7 @@ function resetModalForm() {
   modalGenreInput.innerText = "Select book genre";
   modalGenreInput.style.color = "black";
   modalReadSwitch.removeAttribute("checked"); // Resetting 'checked' attribute.
+  successMsg.innerText = "";
 }
 
 // Display error in modal for incorrect input data:
@@ -226,8 +227,6 @@ function clearInputFields() {
   inputForm.forEach((input) => {
     input.value = "";
   });
-
-  // ? Function to automatically close the modal after rendering books.
 }
 
 // ! TEST START:
@@ -237,21 +236,25 @@ function clearInputFields() {
 function updateBook() {
   myLibrary.forEach((book) => {
     if (book.id === selectedBookItem) {
-      if (modalTitleInput.value !== book.title) {
+      if (
+        modalTitleInput.value === book.title &&
+        modalAuthorInput.value === book.author &&
+        modalPagesInput.value === book.pages &&
+        modalGenreInput.innerHTML === book.genre
+      ) {
+        showMsg("noChange");
+      } else if (modalTitleInput.value !== book.title) {
         book.title = modalTitleInput.value;
-        showSuccessMsg("edit");
-      }
-      if (modalAuthorInput.value !== book.author) {
+        showMsg("edit");
+      } else if (modalAuthorInput.value !== book.author) {
         book.author = modalAuthorInput.value;
-        showSuccessMsg("edit");
-      }
-      if (modalPagesInput.value !== book.pages) {
+        showMsg("edit");
+      } else if (modalPagesInput.value !== book.pages) {
         book.pages = modalPagesInput.value;
-        showSuccessMsg("edit");
-      }
-      if (modalGenreInput.innerHTML !== book.genre) {
+        showMsg("edit");
+      } else if (modalGenreInput.innerHTML !== book.genre) {
         book.genre = modalGenreInput.innerHTML;
-        showSuccessMsg("edit");
+        showMsg("edit");
       }
     }
   });
@@ -269,7 +272,6 @@ bookLibrary.addEventListener("click", (e) => {
       modalAuthorInput.value = selectedBook.author;
       modalPagesInput.value = selectedBook.pages;
       modalGenreInput.innerText = selectedBook.genre;
-
       modalSwitchCheck(selectedBook);
     }
   }
@@ -321,22 +323,28 @@ document.querySelector(".book-library").addEventListener("click", (e) => {
   }
 });
 
-// Toggle read/unread for general modal and editing book item:
+// Toggle for each book item read/unread:
 
 document.querySelector(".label-switch").addEventListener("click", () => {
   myLibrary.forEach((item) => {
     if (item.id === selectedBookItem) {
       if (item.read) {
         item.read = false;
-        modalReadSwitch.checked = false;
       } else {
         item.read = true;
-        modalReadSwitch.checked = true;
       }
     }
   });
-  modalReadSwitch.toggleAttribute("checked");
-  render();
+});
+
+// Toggle general modal input:
+
+document.querySelector(".label-switch").addEventListener("click", () => {
+  if (modalReadSwitch.checked) {
+    modalReadSwitch.checked = false;
+  } else {
+    modalReadSwitch.checked = true;
+  }
 });
 
 // Note: 'Submit' buttons must be fired on the form element not the submit button itself:
