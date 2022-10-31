@@ -3,9 +3,11 @@
 // LOCAL STORAGE:
 
 const LOCAL_STORAGE_LIST_KEY = "books.myLibrary";
+const LOCAL_STORAGE_SELECTED_BOOK_ID = "books.selectedBookItem";
 
 const myLibrary =
   JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
+let selectedBookItem = localStorage.getItem(LOCAL_STORAGE_SELECTED_BOOK_ID);
 
 const header = document.querySelector(".header");
 const main = document.querySelector(".main");
@@ -37,6 +39,7 @@ function render() {
 
 function save() {
   localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(myLibrary));
+  localStorage.setItem(LOCAL_STORAGE_SELECTED_BOOK_ID, selectedBookItem);
 }
 
 // Array to store book objects:
@@ -52,37 +55,41 @@ function CreateBook(bookTitle, bookAuthor, bookPages, bookGenre, bookRead) {
   };
 }
 
+// Todo: Read/unread toggle is not responding in the correct way => fix!
 // Validates all input in modal and if data accepted, add to myLibrary array:
 
 function validateModalForm(result, e) {
+  e.preventDefault();
   if (
     !modalTitleInput.validity.valid ||
     !modalAuthorInput.validity.valid ||
     modalGenreInput.innerText.includes("Select")
   ) {
     showError();
-    e.preventDefault();
-  } else {
+  } else if (selectedBookItem === "") {
     myLibrary.push(result);
-    showSuccessMsg();
-    resetModalForm();
-    e.preventDefault();
+    showSuccessMsg("submit");
+  } else if (selectedBookItem !== "") {
+    updateBook();
   }
+  resetModalForm();
 }
 
 // Show success message if book is added to 'myLibrary' array (passing validation):
 
-function showSuccessMsg() {
+function showSuccessMsg(message) {
   const successMsg = document.querySelector(".success-msg");
 
-  successMsg.innerText = "Book successfully added to your library!";
-
-  // successMsg.style.color = "green";
+  if (message === "submit") {
+    successMsg.innerText = "Book successfully added to your library!";
+  } else if (message === "edit") {
+    successMsg.innerText = "Changes have been saved!";
+  }
 
   successMsg.classList.add(".success-glow");
   setTimeout(() => {
     successMsg.innerText = "";
-  }, "5000");
+  }, "4000");
 }
 
 // Resets all modal input values and span error messages:
@@ -117,45 +124,12 @@ function showError() {
 
 // DEAL WITH MODAL FUNCTION:
 
-class ModalEvents {
-  static openModal() {
-    btn.addEventListener("click", () => {
-      modal.style.display = "block";
-      header.classList.add("is-blurred");
-      main.classList.add("is-blurred");
-    });
-  }
-
-  static removeModal() {
-    modal.style.display = "none";
-    header.classList.remove("is-blurred");
-    main.classList.remove("is-blurred");
-    clearInputFields();
-  }
-
-  // ? Is there a way to create a 'parent event listener' to share common DOM elements?
-
-  static closeModal() {
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        optionMenu.classList.remove("active");
-        resetModalForm();
-        ModalEvents.removeModal();
-      }
-    });
-  }
-
-  static closeSpanModal() {
-    span.addEventListener("click", () => {
-      optionMenu.classList.remove("active");
-      resetModalForm();
-      ModalEvents.removeModal();
-    });
-  }
+function removeModal() {
+  modal.style.display = "none";
+  header.classList.remove("is-blurred");
+  main.classList.remove("is-blurred");
+  clearInputFields();
 }
-ModalEvents.openModal();
-ModalEvents.closeModal();
-ModalEvents.closeSpanModal();
 
 // Iterate through library and create a "book card" for each book object inside the array:
 
@@ -252,15 +226,39 @@ function clearInputFields() {
   inputForm.forEach((input) => {
     input.value = "";
   });
-  ModalEvents.closeModal();
+
+  // ? Function to automatically close the modal after rendering books.
 }
 
 // ! TEST START:
 
-// Todo: User clicks on edit on specific book item => Opens modal with current input values already in place => editing the input and submitting will result in the 'myLibrary' book object to be newly updated.
+// Update input values after editing book item:
 
-const bookCardEdit = document.querySelector(".book-card-edit");
+function updateBook() {
+  myLibrary.forEach((book) => {
+    if (book.id === selectedBookItem) {
+      if (modalTitleInput.value !== book.title) {
+        book.title = modalTitleInput.value;
+        showSuccessMsg("edit");
+      }
+      if (modalAuthorInput.value !== book.author) {
+        book.author = modalAuthorInput.value;
+        showSuccessMsg("edit");
+      }
+      if (modalPagesInput.value !== book.pages) {
+        book.pages = modalPagesInput.value;
+        showSuccessMsg("edit");
+      }
+      if (modalGenreInput.innerHTML !== book.genre) {
+        book.genre = modalGenreInput.innerHTML;
+        showSuccessMsg("edit");
+      }
+    }
+  });
+}
+
 bookLibrary.addEventListener("click", (e) => {
+  e.preventDefault();
   const selectedBook = myLibrary.find((item) => item.id === e.target.id);
   if (e.target.classList.contains("book-card-edit")) {
     if (e.target.id === selectedBook.id) {
@@ -278,6 +276,17 @@ bookLibrary.addEventListener("click", (e) => {
     }
   }
 });
+
+// Get the selected book list item id and use local storage:
+
+function getSelectedBookItem() {
+  document.querySelector(".book-library").addEventListener("click", (e) => {
+    if (e.target.classList.contains("book-card-edit")) {
+      selectedBookItem = e.target.id;
+    }
+  });
+}
+getSelectedBookItem();
 
 // ! TEST END;
 
@@ -305,13 +314,24 @@ document.querySelector(".book-library").addEventListener("click", (e) => {
       }
     }
   }
-  render();
 });
 
-// Modal input:checkbox read/unread:
+// Toggle read/unread for general modal and editing book item:
 
 document.querySelector(".label-switch").addEventListener("click", () => {
-  document.querySelector(".modal-switch").toggleAttribute("checked");
+  myLibrary.forEach((item) => {
+    if (item.id === selectedBookItem) {
+      if (item.read === true) {
+        item.read = false;
+        modalReadSwitch.checked = false;
+      } else {
+        item.read = true;
+        modalReadSwitch.checked = true;
+      }
+    }
+  });
+  modalReadSwitch.toggleAttribute("checked");
+  render();
 });
 
 // Note: 'Submit' buttons must be fired on the form element not the submit button itself:
@@ -324,7 +344,6 @@ bookForm.addEventListener("submit", (e) => {
     modalGenreInput.innerText,
     modalReadSwitch.checked
   );
-
   validateModalForm(result, e);
   saveAndRender();
 });
@@ -387,6 +406,34 @@ bookLibrary.addEventListener("click", (e) => {
     myLibrary.splice(myLibrary.indexOf(selectedId), 1);
   }
   saveAndRender();
+});
+
+btn.addEventListener("click", () => {
+  modal.style.display = "block";
+  header.classList.add("is-blurred");
+  main.classList.add("is-blurred");
+  selectedBookItem = "";
+  save(); // Save selectedBookItem after converting to 'null'.
+});
+
+// Clicking outside of modal, closes modal:
+
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    selectedBookItem = "";
+    optionMenu.classList.remove("active");
+    resetModalForm();
+    removeModal();
+  }
+});
+
+// Click on 'x' close on modal, closes modal:
+
+span.addEventListener("click", () => {
+  selectedBookItem = "";
+  optionMenu.classList.remove("active");
+  resetModalForm();
+  removeModal();
 });
 
 function printWindow() {
