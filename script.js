@@ -268,6 +268,8 @@ bookLibrary.addEventListener("click", (e) => {
   if (e.target.classList.contains("book-card-edit")) {
     if (e.target.id === selectedBook.id) {
       modal.style.display = "block";
+      header.classList.add("is-blurred");
+      main.classList.add("is-blurred");
       modalTitleInput.value = selectedBook.title;
       modalAuthorInput.value = selectedBook.author;
       modalPagesInput.value = selectedBook.pages;
