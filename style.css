@@ -258,8 +258,8 @@
   transform: translateX(-50%);
 }
 
-.label-switch {
-
+.modal-content label {
+  top: 20%;
 }
 
 .read-toggle label:after {
