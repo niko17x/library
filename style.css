@@ -233,8 +233,13 @@
 }
 
 /* !STYLING TOGGLE SWITCH FOR READ/UNREAD */
+.read-toggle {
+  /* Pos. relative to position child elements with pos. relative: */
+  position: relative;
+}
 
 .read-toggle input[type=checkbox]{
+  position: relative;
   height: 0;
   width: 0;
   visibility: hidden;
@@ -253,6 +258,10 @@
   transform: translateX(-50%);
 }
 
+.label-switch {
+
+}
+
 .read-toggle label:after {
   content: '';
   position: absolute;
@@ -266,7 +275,7 @@
 }
 
 .read-toggle input:checked + label {
-  background: #bada55;
+  background: var(--electric-blue-color);
 }
 
 .read-toggle input:checked + label:after {
@@ -278,13 +287,6 @@
   width: 130px;
 }
 
-.modal-body .read-toggle label {
-  padding: 1rem;
-  position: absolute;
-  bottom: 27%;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
 
 
@@ -345,6 +347,8 @@
   margin-bottom: 200px;
   box-shadow: 0 15px 6px -6px rgb(100, 100, 100), 0 -15px 6px -6px rgb(100, 100, 100);
   border-radius: 10px;
+
+  position: relative;
 }
 
 /* Add Animation for Modal pop up when clicked: */
@@ -658,6 +662,8 @@ form * {
   font-size: 1.7rem;
   text-align: center;
   margin: 1rem;
+  
+  position: relative;
 }
 
 
