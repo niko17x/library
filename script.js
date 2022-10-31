@@ -257,6 +257,8 @@ function updateBook() {
   });
 }
 
+// Open edit modal with existing input value from object:
+
 bookLibrary.addEventListener("click", (e) => {
   e.preventDefault();
   const selectedBook = myLibrary.find((item) => item.id === e.target.id);
@@ -268,25 +270,20 @@ bookLibrary.addEventListener("click", (e) => {
       modalPagesInput.value = selectedBook.pages;
       modalGenreInput.innerText = selectedBook.genre;
 
-      if (selectedBook.read) {
-        document.querySelector(".modal-switch").checked = true;
-      } else {
-        document.querySelector(".modal-switch").checked = false;
-      }
+      modalSwitchCheck(selectedBook);
     }
   }
 });
 
-// Get the selected book list item id and use local storage:
+// Helper function for toggling read/unread input switch:
 
-function getSelectedBookItem() {
-  document.querySelector(".book-library").addEventListener("click", (e) => {
-    if (e.target.classList.contains("book-card-edit")) {
-      selectedBookItem = e.target.id;
-    }
-  });
+function modalSwitchCheck(selectedBook) {
+  if (selectedBook.read) {
+    modalReadSwitch.checked = true;
+  } else {
+    modalReadSwitch.checked = false;
+  }
 }
-getSelectedBookItem();
 
 // ! TEST END;
 
@@ -298,19 +295,27 @@ function clearElement(element) {
   }
 }
 
+// Get the selected book list item id and use local storage:
+
+document.querySelector(".book-library").addEventListener("click", (e) => {
+  if (e.target.classList.contains("book-card-edit")) {
+    selectedBookItem = e.target.id;
+  }
+});
+
 // Event to toggle read/unread in each book item:
 
 document.querySelector(".book-library").addEventListener("click", (e) => {
-  const selectedId = myLibrary.find((item) => item.id === e.target.id);
+  const selectedBook = myLibrary.find((item) => item.id === e.target.id);
 
   if (e.target.tagName.toLowerCase() === "label") {
-    if (selectedId.id === e.target.id) {
+    if (selectedBook.id === e.target.id) {
       // click event toggles read/unread corresponds to the 'read' property in myLibrary array:
 
-      if (selectedId.read === true) {
-        selectedId.read = false;
+      if (selectedBook.read) {
+        selectedBook.read = false;
       } else {
-        selectedId.read = true;
+        selectedBook.read = true;
       }
     }
   }
@@ -321,7 +326,7 @@ document.querySelector(".book-library").addEventListener("click", (e) => {
 document.querySelector(".label-switch").addEventListener("click", () => {
   myLibrary.forEach((item) => {
     if (item.id === selectedBookItem) {
-      if (item.read === true) {
+      if (item.read) {
         item.read = false;
         modalReadSwitch.checked = false;
       } else {
@@ -397,13 +402,9 @@ modalAuthorInput.addEventListener("input", () => {
 
 bookLibrary.addEventListener("click", (e) => {
   if (e.target.classList.contains("book-card-close")) {
-    // Select book object id that matches the clicked-on target id:
+    // Using the id of the current selected book (selectedBookItem), get index pos. of object in myLibrary and remove from array => return new myLibrary array.
 
-    const selectedId = myLibrary.find((item) => item.id === e.target.id);
-
-    // Delete the book object from 'myLibrary' array:
-
-    myLibrary.splice(myLibrary.indexOf(selectedId), 1);
+    myLibrary.splice(myLibrary.indexOf(selectedBookItem), 1);
   }
   saveAndRender();
 });
